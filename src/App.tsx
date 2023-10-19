@@ -1,20 +1,15 @@
 import React from 'react';
-import { useAppSelector } from './app/hooks';
-
-import { selectRows } from './features/data';
+import { Container } from '@mui/material';
 
 import CustomTable from './components/CustomTable';
 
-function App() {
 
-  const data = useAppSelector(selectRows);
-
+const App: React.FC = () => { 
   return (
-    <div className="App">
-      <h1>Hello !</h1>
-      <CustomTable columns={[]} data={data}/>
-    </div>
-  );
+    <Container sx={{ height: '100vh' }} >
+      <CustomTable />
+    </Container>
+    )
 }
 
-export default App;
+export default App
