@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 
 const TableContent: React.FC = () => {
   return (
-    <Box>
+    <Box sx={{ marginTop: 1 }}>
       <Columns />
       <Rows />
       <TablePagination />

@@ -1,7 +1,27 @@
 import React from "react";
+import { Box } from "@mui/material";
 
-const Column: React.FC = () => {
-  return <div>Column</div>;
+interface ColumnProps {
+  title: string;
+  id: string;
+  width?: number;
+}
+
+const Column: React.FC<ColumnProps> = ({ title, id, width = 50 }) => {
+  return (
+    <Box
+      id={`col-${id}`}
+      sx={{
+        width: `${width}px`,
+        px: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+      }}
+    >
+      {title}
+    </Box>
+  );
 };
 
 export default Column;
