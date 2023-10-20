@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Columns: React.FC = () => {
-  return (
-    <div>Columns</div>
-  )
-}
+  return <div>Columns</div>;
+};
 
 export default Columns;

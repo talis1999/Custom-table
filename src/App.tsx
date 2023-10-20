@@ -1,15 +1,14 @@
-import React from 'react';
-import { Container } from '@mui/material';
+import React from "react";
+import { Container } from "@mui/material";
 
-import CustomTable from './components/CustomTable';
+import CustomTable from "./components/CustomTable";
 
-
-const App: React.FC = () => { 
+const App: React.FC = () => {
   return (
-    <Container sx={{ height: '100vh' }} >
+    <Container sx={{ height: "100vh" }}>
       <CustomTable />
     </Container>
-    )
-}
+  );
+};
 
-export default App
+export default App;

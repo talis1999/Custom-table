@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const TableFilters: React.FC = () => {
-  return (
-    <div>TableFilters</div>
-  )
-}
+  return <div>TableFilters</div>;
+};
 
-export default TableFilters
+export default TableFilters;
