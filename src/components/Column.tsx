@@ -17,6 +17,7 @@ const Column: React.FC<ColumnProps> = ({ title, id, width = 50 }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-start",
+        fontWeight: "bold",
       }}
     >
       {title}
