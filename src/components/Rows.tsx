@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { useAppSelector } from "../app/hooks";
 import { selectRows } from "../features/data";
@@ -10,7 +10,14 @@ const Rows: React.FC = () => {
   const rows = useAppSelector(selectRows);
 
   return (
-    <Box sx={{ my: 1, height: "50vh", overflowY: "auto" }}>
+    <Box
+      sx={{
+        my: 1,
+        height: "50vh",
+        overflowY: "auto",
+        backgroundColor: "#a5b1c2",
+      }}
+    >
       {Boolean(rows.length) && rows.map((row) => <Row row={row} />)}
     </Box>
   );
