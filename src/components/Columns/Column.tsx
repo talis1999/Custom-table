@@ -1,13 +1,19 @@
 import React from "react";
 import { Box } from "@mui/material";
 
+import { COLUMN_DEFAULT_WIDTH } from "../../constants/constants";
+
 interface ColumnProps {
   title: string;
   id: string;
   width?: number;
 }
 
-const Column: React.FC<ColumnProps> = ({ title, id, width = 50 }) => {
+const Column: React.FC<ColumnProps> = ({
+  title,
+  id,
+  width = COLUMN_DEFAULT_WIDTH,
+}) => {
   return (
     <Box
       id={`col-${id}`}

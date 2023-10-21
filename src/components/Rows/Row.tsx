@@ -1,9 +1,9 @@
 import React from "react";
 import { Paper } from "@mui/material";
 
-import { useAppSelector } from "../app/hooks";
-import { Row as RowType } from "../features/data";
-import { selectColumns } from "../features/columns";
+import { useAppSelector } from "../../app/hooks";
+import { Row as RowType } from "../../features/data";
+import { selectColumns } from "../../features/columns";
 import Cell from "./Cell";
 
 interface RowProps {

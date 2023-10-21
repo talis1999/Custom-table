@@ -1,6 +1,6 @@
 import React from "react";
-import Columns from "./Columns";
-import Rows from "./Rows";
+import Columns from "./Columns/Columns";
+import Rows from "./Rows/Rows";
 import TablePagination from "./TablePagination";
 import { Box } from "@mui/material";
 
