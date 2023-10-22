@@ -6,7 +6,7 @@ export interface Column {
   id: string;
   ordinalNo: number;
   title: string;
-  type: string;
+  type: 'string' | 'number' | 'boolian' | 'options';
   width?: number;
 }
 
@@ -22,10 +22,9 @@ const initialState: ColumnsState = {
 
 export const columnsSlice = createSlice({
     name: 'columns',
-    // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-      setColumns: (state, action: PayloadAction<any[]>) => {
+      setColumns: (state, action: PayloadAction<Column[]>) => {
         state.columns = [...action.payload];
       }
     }
