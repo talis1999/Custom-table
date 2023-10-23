@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
-import type { RootState } from '../app/store';
+import type { RootState } from '../../app/store';
+
+import { paginateRows } from './utils';
 
 
 export interface Row {
@@ -34,11 +36,13 @@ export const dataSlice = createSlice({
 export const { setRows } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
+const getPage = (state: RootState) => state.data.page;
+const getLimit = (state: RootState) => state.data.limit;
 
 // might get more complicated later on
 export const selectRows = createSelector(
-    [getRows],
-    (rows) => rows
+    [getRows, getPage, getLimit],
+    (rows, page, limit) => paginateRows({rows, page, limit})
   );
 
 export default dataSlice.reducer;

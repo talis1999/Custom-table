@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useAppDispatch } from "../app/hooks";
 
-import { setRows } from "../features/data";
-import { setColumns } from "../features/columns";
+import { setRows } from "../features/data/data";
+import { setColumns } from "../features/columns/columns";
 import TableFilters from "./TableFilters";
 import TableContent from "./TableContent";
 import { Box } from "@mui/material";

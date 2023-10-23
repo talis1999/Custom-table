@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
-import type { RootState } from '../app/store';
+import type { RootState } from '../../app/store';
 
 
 export interface Column {

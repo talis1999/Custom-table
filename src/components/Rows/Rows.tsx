@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectRows } from "../../features/data";
+import { selectRows } from "../../features/data/data";
 
 import Row from "./Row";
 

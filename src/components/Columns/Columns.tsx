@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectColumns } from "../../features/columns";
+import { selectColumns } from "../../features/columns/columns";
 
 import Column from "./Column";
 
