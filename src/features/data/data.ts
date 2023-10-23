@@ -29,15 +29,20 @@ export const dataSlice = createSlice({
     reducers: {
       setRows: (state, action: PayloadAction<Row[]>) => {
         state.rows = [...action.payload];
-      }
+        
+      },
+      setLimit: (state, action: PayloadAction<number>) => {
+        state.limit = action.payload;
+      },
     }
   });
 
-export const { setRows } = dataSlice.actions;
+export const { setRows, setLimit } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
-const getPage = (state: RootState) => state.data.page;
-const getLimit = (state: RootState) => state.data.limit;
+
+export const getPage = (state: RootState) => state.data.page;
+export const getLimit = (state: RootState) => state.data.limit;
 
 // might get more complicated later on
 export const selectRows = createSelector(

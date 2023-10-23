@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
+import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { getLimit, setLimit } from "../features/data/data";
+
+import { PAGE_SIZES } from "../constants/constants";
+
 const PageSizeSelect: React.FC = () => {
-  const [pageSize, setPageSize] = useState<number>(25);
+  const dispatch = useAppDispatch();
+
+  const currentLimit = useAppSelector(getLimit);
+  const [pageSize, setPageSize] = useState<number>(currentLimit);
+
+  useEffect(() => {
+    dispatch(setLimit(pageSize));
+  }, [pageSize]);
 
   const handlePageSizeChange = (event: SelectChangeEvent<number>): void => {
     setPageSize(event.target.value as number);
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+    <FormControl sx={{ my: 1, minWidth: 100 }} size="small">
       <Select value={pageSize} onChange={handlePageSizeChange}>
-        <MenuItem value={25}>{`${25} rows`}</MenuItem>
-        <MenuItem value={50}>{`${50} rows`}</MenuItem>
-        <MenuItem value={100}>{`${100} rows`}</MenuItem>
+        {PAGE_SIZES.map((pageSize) => (
+          <MenuItem value={pageSize}>{`${pageSize} rows`}</MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

@@ -14,6 +14,7 @@ const CustomTable: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    console.log("Fetching data --");
     dispatch(setColumns(COLUMNS));
     dispatch(setRows(ROWS));
   }, []);
