@@ -1,7 +1,7 @@
 import React from "react";
 import Columns from "./Columns/Columns";
 import Rows from "./Rows/Rows";
-import TablePagination from "./TablePagination";
+import TablePagination from "./Pagination/TablePagination";
 import { Box, ThemeProvider, createTheme } from "@mui/material";
 
 const theme = createTheme({

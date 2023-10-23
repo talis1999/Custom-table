@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { getLimit, setLimit } from "../features/data/data";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getLimit, setLimit } from "../../features/data/data";
 
-import { PAGE_SIZES } from "../constants/constants";
+import { PAGE_SIZES } from "../../constants/constants";
 
 const PageSizeSelect: React.FC = () => {
   const dispatch = useAppDispatch();

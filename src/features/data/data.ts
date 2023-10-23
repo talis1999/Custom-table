@@ -44,10 +44,16 @@ const getRows = (state: RootState) => state.data.rows;
 export const getPage = (state: RootState) => state.data.page;
 export const getLimit = (state: RootState) => state.data.limit;
 
-// might get more complicated later on
+// ! -- later on perhaps swith here the normal getRows to ones with filters + account special grouped rows and change the name to paginatedRows
 export const selectRows = createSelector(
     [getRows, getPage, getLimit],
     (rows, page, limit) => paginateRows({rows, page, limit})
   );
+
+  // ! -- later on swith here the normal getRows to ones with filters + account special grouped rows 
+export const selectPagesLength = createSelector(
+  [getRows, getLimit],
+  (rows, limit) => Math.ceil(rows.length / limit)
+);
 
 export default dataSlice.reducer;
