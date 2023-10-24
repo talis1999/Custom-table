@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import PrevIcon from "@mui/icons-material/ChevronLeftTwoTone";
 import NextIcon from "@mui/icons-material/ChevronRightTwoTone";
 
@@ -44,9 +44,9 @@ const PageIndexControl: React.FC = () => {
       >
         <PrevIcon />
       </IconButton>
-      <Box>{"page"}</Box>
+      <Typography>page</Typography>
       <PageSelect page={pageIndexValue} goToPage={setPageIndexValue} />
-      <Box>{`of ${currentPagesLength}`}</Box>
+      <Typography>{`of ${currentPagesLength}`}</Typography>
       <IconButton
         aria-label="next"
         onClick={goNext}
