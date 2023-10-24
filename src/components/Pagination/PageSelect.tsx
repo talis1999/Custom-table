@@ -24,7 +24,11 @@ const PageSelect: React.FC<PageSelectProps> = ({ page, goToPage }) => {
 
   return (
     <FormControl sx={{ maxWidth: 100, px: 1 }} size="small">
-      <Select value={page} onChange={handlePageChange}>
+      <Select
+        sx={{ height: 30, position: "relative", top: 2 }}
+        value={page}
+        onChange={handlePageChange}
+      >
         {pages.map((page) => (
           <MenuItem value={page}>{page}</MenuItem>
         ))}
