@@ -16,9 +16,15 @@ const PageIndexControl: React.FC = () => {
   const [pageIndexValue, setPageIndexValue] = useState(currentPage);
   const debouncedPageIndexValue = useDebounce(pageIndexValue);
 
+  // Handling dispatch after proper debounce
   useEffect(() => {
     dispatch(setPage(debouncedPageIndexValue));
   }, [debouncedPageIndexValue]);
+
+  // Updating pageIndexValue in case of external changes to currentPage (redux state value)
+  useEffect(() => {
+    setPageIndexValue(currentPage);
+  }, [currentPage]);
 
   const goPrev = () => {
     setPageIndexValue((page) => page - 1);
