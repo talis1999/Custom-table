@@ -32,12 +32,16 @@ export const dataSlice = createSlice({
         
       },
       setLimit: (state, action: PayloadAction<number>) => {
+        state.page = 1;
         state.limit = action.payload;
+      },
+      setPage: (state, action: PayloadAction<number>) => {
+        state.page = action.payload;
       },
     }
   });
 
-export const { setRows, setLimit } = dataSlice.actions;
+export const { setRows, setLimit, setPage } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
 
