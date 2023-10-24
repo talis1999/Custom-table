@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import PrevIcon from "@mui/icons-material/ChevronLeftTwoTone";
 import NextIcon from "@mui/icons-material/ChevronRightTwoTone";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getPage, selectPagesLength, setPage } from "../../features/data/data";
+import useDebounce from "../../hooks/useDebounce";
 
 const PageIndexControl: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,11 +13,19 @@ const PageIndexControl: React.FC = () => {
   const currentPage = useAppSelector(getPage);
   const currentPagesLength = useAppSelector(selectPagesLength);
 
+  const [pageIndexValue, setPageIndexValue] = useState(currentPage);
+  const debouncedPageIndexValue = useDebounce(pageIndexValue);
+
+  useEffect(() => {
+    dispatch(setPage(debouncedPageIndexValue));
+  }, [debouncedPageIndexValue]);
+
   const goPrev = () => {
-    dispatch(setPage(currentPage - 1));
+    setPageIndexValue((page) => page - 1);
   };
+
   const goNext = () => {
-    dispatch(setPage(currentPage + 1));
+    setPageIndexValue((page) => page + 1);
   };
 
   return (
@@ -25,15 +33,15 @@ const PageIndexControl: React.FC = () => {
       <IconButton
         aria-label="previos"
         onClick={goPrev}
-        disabled={currentPage === 1}
+        disabled={pageIndexValue === 1}
       >
         <PrevIcon />
       </IconButton>
-      <Box>{`Page ${currentPage} of ${currentPagesLength}`}</Box>
+      <Box>{`Page ${pageIndexValue} of ${currentPagesLength}`}</Box>
       <IconButton
         aria-label="next"
         onClick={goNext}
-        disabled={currentPage === currentPagesLength}
+        disabled={pageIndexValue === currentPagesLength}
       >
         <NextIcon />
       </IconButton>

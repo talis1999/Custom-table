@@ -8,6 +8,7 @@ import Row from "./Row";
 
 const Rows: React.FC = () => {
   const rows = useAppSelector(selectRows);
+  console.log("!-- ROW RENDER --!");
 
   return (
     <Box
