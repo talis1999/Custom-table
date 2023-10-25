@@ -2,8 +2,8 @@ import React from "react";
 import { Paper } from "@mui/material";
 
 import { useAppSelector } from "../../app/hooks";
-import { Row as RowType } from "../../features/data";
-import { selectColumns } from "../../features/columns";
+import { Row as RowType } from "../../features/data/data";
+import { selectColumns } from "../../features/columns/columns";
 import Cell from "./Cell";
 
 interface RowProps {
@@ -24,8 +24,6 @@ const Row: React.FC<RowProps> = ({ row }) => {
         px: 3,
         py: 2,
         my: "2px",
-        backgroundColor: "#778ca3",
-        color: "#F5F7F8",
         alignItems: "center",
       }}
     >

@@ -1,4 +1,4 @@
-import { Column } from "../../features/columns";
+import { Column } from "../../features/columns/columns";
 
 const COLUMNS: Column[] = [
     {
