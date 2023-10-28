@@ -11,7 +11,7 @@ interface PageSelectProps {
 }
 
 const PageSelect: React.FC<PageSelectProps> = ({ page, goToPage }) => {
-  const currentPagesLength = useAppSelector(selectPagesLength);
+  const currentPagesLength: number = useAppSelector(selectPagesLength);
 
   const pages = useMemo(
     () => Array.from({ length: currentPagesLength }, (_, index) => index + 1),

@@ -10,7 +10,7 @@ import { PAGE_SIZES } from "../../constants/constants";
 const PageSizeSelect: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const currentLimit = useAppSelector(getLimit);
+  const currentLimit: number = useAppSelector(getLimit);
   const [pageSize, setPageSize] = useState<number>(currentLimit);
 
   useEffect(() => {

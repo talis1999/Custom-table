@@ -29,6 +29,10 @@ export const dataSlice = createSlice({
     setRows: (state, action: PayloadAction<Row[]>) => {
       state.rows = [...action.payload];
     },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.page = 1;
+      state.searchQuery = action.payload;
+    },
     setLimit: (state, action: PayloadAction<number>) => {
       state.page = 1;
       state.limit = action.payload;
@@ -39,7 +43,7 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { setRows, setLimit, setPage } = dataSlice.actions;
+export const { setRows, setSearchQuery, setLimit, setPage } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
 export const getSearchQuery = (state: RootState) => state.data.searchQuery;

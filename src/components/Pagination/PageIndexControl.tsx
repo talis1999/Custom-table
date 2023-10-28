@@ -11,11 +11,11 @@ import PageSelect from "./PageSelect";
 const PageIndexControl: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const currentPage = useAppSelector(getPage);
-  const currentPagesLength = useAppSelector(selectPagesLength);
+  const currentPage: number = useAppSelector(getPage);
+  const currentPagesLength: number = useAppSelector(selectPagesLength);
 
   const [pageIndexValue, setPageIndexValue] = useState<number>(currentPage);
-  const debouncedPageIndexValue = useDebounce<number>(pageIndexValue);
+  const debouncedPageIndexValue: number = useDebounce<number>(pageIndexValue);
 
   // Handling dispatch after proper debounce
   useEffect(() => {
