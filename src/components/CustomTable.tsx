@@ -3,7 +3,7 @@ import { useAppDispatch } from "../app/hooks";
 
 import { setRows } from "../features/data/data";
 import { setColumns } from "../features/columns/columns";
-import TableFilters from "./TableFilters";
+import TableFilters from "./Filters/TableFilters";
 import TableContent from "./TableContent";
 import { Box } from "@mui/material";
 
@@ -14,7 +14,6 @@ const CustomTable: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log("Fetching data --");
     dispatch(setColumns(COLUMNS));
     dispatch(setRows(ROWS));
   }, []);

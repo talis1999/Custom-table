@@ -2,12 +2,12 @@ import React from "react";
 import { Box } from "@mui/material";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectRows } from "../../features/data/data";
+import { selectPaginatedRows } from "../../features/data/data";
 
 import Row from "./Row";
 
 const Rows: React.FC = () => {
-  const rows = useAppSelector(selectRows);
+  const rows = useAppSelector(selectPaginatedRows);
   console.log("!-- ROW RENDER --!");
 
   return (
