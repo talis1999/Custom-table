@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 
-import { paginateRows } from "./utils";
+import { rowIncludes, paginateRows } from "./utils";
 
 export interface Row {
   id: string;
@@ -49,17 +49,8 @@ export const getLimit = (state: RootState) => state.data.limit;
 const selectFilteredRows = createSelector(
   [getRows, getSearchQuery],
   (rows, searchQuery) => {
-    if (!Boolean(searchQuery)) return rows;
-    const lowerCasedSearchQuery = searchQuery.toLowerCase();
-    return rows.filter((row) => {
-      return Object.keys(row).some((key) => {
-        if (key === "id" || typeof row[key] === "boolean") return false;
-        return row[key]
-          .toString()
-          .toLowerCase()
-          .includes(lowerCasedSearchQuery);
-      });
-    });
+    if (!searchQuery.length) return rows;
+    return rows.filter((row) => rowIncludes(row, searchQuery));
   }
 );
 
