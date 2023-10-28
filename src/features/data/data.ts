@@ -17,7 +17,7 @@ interface DataState {
 
 const initialState: DataState = {
   rows: [],
-  searchQuery: "Marry",
+  searchQuery: "",
   page: 1,
   limit: 25,
 };
