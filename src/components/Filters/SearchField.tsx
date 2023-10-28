@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { getSearchQuery, setSearchQuery } from "../features/data/data";
-import useDebounce from "../hooks/useDebounce";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getSearchQuery, setSearchQuery } from "../../features/data/data";
+import useDebounce from "../../hooks/useDebounce";
 
-const TableFilters: React.FC = () => {
+const SearchField: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const currentSearchQuery: string = useAppSelector(getSearchQuery);
@@ -21,16 +21,14 @@ const TableFilters: React.FC = () => {
   };
 
   return (
-    <Box>
-      <TextField
-        label="Search"
-        id="search-input"
-        size="small"
-        value={searchValue}
-        onChange={handleSearch}
-      />
-    </Box>
+    <TextField
+      label="Search"
+      id="search-input"
+      size="small"
+      value={searchValue}
+      onChange={handleSearch}
+    />
   );
 };
 
-export default TableFilters;
+export default SearchField;
