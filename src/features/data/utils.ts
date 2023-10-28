@@ -7,7 +7,7 @@ interface PaginateRowsArgs {
 }
 
 export const rowIncludes = (row: Row, searchQuery: string): boolean => {
-  const lowerCasedSearchQuery = searchQuery.toLowerCase();
+  const lowerCasedSearchQuery: string = searchQuery.toLowerCase();
 
   return Object.keys(row).some((key) => {
     if (key === "id" || typeof row[key] === "boolean") return false;
