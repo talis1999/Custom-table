@@ -40,6 +40,11 @@ export const { setColumns } = columnsSlice.actions;
 const getColumns = (state: RootState) => state.columns.columns;
 const getSelectedColumns = (state: RootState) => state.columns.selectedColumns;
 
+export const selectSelectedColumns = createSelector(
+  [getSelectedColumns],
+  (selectedColumns) => selectedColumns
+);
+
 export const selectColumns = createSelector([getColumns], (columns) => {
   const sortedColumns: Column[] = [...columns];
   return sortedColumns.sort((a, b) => a.ordinalNo - b.ordinalNo);
