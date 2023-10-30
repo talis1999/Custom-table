@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
+import { generateSelectedColumns } from "./utils";
 
 export interface Column {
   id: string;
@@ -9,18 +10,18 @@ export interface Column {
   width?: number;
 }
 
-interface ColumnsBlacklist {
+export interface SelectedColumns {
   [columnId: string]: boolean;
 }
 
 interface ColumnsState {
   columns: Column[];
-  columnsBlacklist: ColumnsBlacklist;
+  selectedColumns: SelectedColumns;
 }
 
 const initialState: ColumnsState = {
   columns: [],
-  columnsBlacklist: {},
+  selectedColumns: {},
 };
 
 export const columnsSlice = createSlice({
@@ -29,6 +30,7 @@ export const columnsSlice = createSlice({
   reducers: {
     setColumns: (state, action: PayloadAction<Column[]>) => {
       state.columns = [...action.payload];
+      state.selectedColumns = generateSelectedColumns([...action.payload]);
     },
   },
 });
@@ -36,8 +38,7 @@ export const columnsSlice = createSlice({
 export const { setColumns } = columnsSlice.actions;
 
 const getColumns = (state: RootState) => state.columns.columns;
-const getColumnsBlacklist = (state: RootState) =>
-  state.columns.columnsBlacklist;
+const getSelectedColumns = (state: RootState) => state.columns.selectedColumns;
 
 export const selectColumns = createSelector([getColumns], (columns) => {
   const sortedColumns: Column[] = [...columns];
@@ -45,9 +46,9 @@ export const selectColumns = createSelector([getColumns], (columns) => {
 });
 
 export const selectFilteredColumns = createSelector(
-  [selectColumns, getColumnsBlacklist],
-  (columns, columnsBlacklist) =>
-    columns.filter((column) => !columnsBlacklist[column.id])
+  [selectColumns, getSelectedColumns],
+  (columns, selectedColumns) =>
+    columns.filter((column) => selectedColumns[column.id])
 );
 
 export default columnsSlice.reducer;
