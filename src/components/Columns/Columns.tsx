@@ -2,12 +2,12 @@ import React from "react";
 import { Box } from "@mui/material";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectColumns } from "../../features/columns/columns";
+import { selectFilteredColumns } from "../../features/columns/columns";
 
 import Column from "./Column";
 
 const Columns: React.FC = () => {
-  const columns = useAppSelector(selectColumns);
+  const columns = useAppSelector(selectFilteredColumns);
 
   return (
     <Box
