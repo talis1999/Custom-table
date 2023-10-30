@@ -9,8 +9,12 @@ const SearchField: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const currentSearchQuery: string = useAppSelector(getSearchQuery);
-  const [searchValue, setSearchValue] = useState<string>(currentSearchQuery);
+  const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue: string = useDebounce<string>(searchValue);
+
+  useEffect(() => {
+    setSearchValue(currentSearchQuery);
+  }, [currentSearchQuery]);
 
   useEffect(() => {
     dispatch(setSearchQuery(debouncedSearchValue));

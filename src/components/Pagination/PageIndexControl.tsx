@@ -14,18 +14,17 @@ const PageIndexControl: React.FC = () => {
   const currentPage: number = useAppSelector(getPage);
   const currentPagesLength: number = useAppSelector(selectPagesLength);
 
-  const [pageIndexValue, setPageIndexValue] = useState<number>(currentPage);
+  const [pageIndexValue, setPageIndexValue] = useState<number>(1);
   const debouncedPageIndexValue: number = useDebounce<number>(pageIndexValue);
+
+  useEffect(() => {
+    setPageIndexValue(currentPage);
+  }, [currentPage]);
 
   // Handling dispatch after proper debounce
   useEffect(() => {
     dispatch(setPage(debouncedPageIndexValue));
   }, [debouncedPageIndexValue]);
-
-  // Updating pageIndexValue in case of external changes to currentPage (redux state value)
-  useEffect(() => {
-    setPageIndexValue(currentPage);
-  }, [currentPage]);
 
   const goPrev = () => {
     setPageIndexValue((page) => page - 1);

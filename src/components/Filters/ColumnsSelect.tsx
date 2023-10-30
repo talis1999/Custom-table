@@ -53,7 +53,7 @@ const ColumnsSelect: React.FC = () => {
       target: { value: keys },
     } = event;
     console.log("KEYS--", keys);
-
+    // avoid empty array !
     if (Array.isArray(keys)) {
       const newSelectedColumns: SelectedColumns = {};
       keys.forEach((key) => {

@@ -11,7 +11,11 @@ const PageSizeSelect: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const currentLimit: number = useAppSelector(getLimit);
-  const [pageSize, setPageSize] = useState<number>(currentLimit);
+  const [pageSize, setPageSize] = useState<number>(25);
+
+  useEffect(() => {
+    setPageSize(currentLimit);
+  }, [currentLimit]);
 
   useEffect(() => {
     dispatch(setLimit(pageSize));
