@@ -9,11 +9,9 @@ import Checkbox from "@mui/material/Checkbox";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
-  SelectedColumns,
   selectColumns,
   selectSelectedColumns,
-  selectFilteredColumns,
-  setSelectedColumns as setStoreSelectedColumns,
+  setSelectedColumns,
 } from "../../features/columns/columns";
 import useDebounce from "../../hooks/useDebounce";
 
@@ -32,43 +30,25 @@ const ColumnsSelect: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const currentColumns = useAppSelector(selectColumns);
-  const currentFilteredColumns = useAppSelector(selectFilteredColumns);
   const currentSelectedColumns = useAppSelector(selectSelectedColumns);
 
   const [columnIds, setColumnIds] = React.useState<string[]>([]);
-  const [selectedColumns, setSelectedColumns] = React.useState<SelectedColumns>(
-    {}
-  );
-  const debouncedSelectedColumns: SelectedColumns =
-    useDebounce<SelectedColumns>(selectedColumns);
+  const debouncedColumnIds: string[] = useDebounce<string[]>(columnIds);
 
   useEffect(() => {
-    const keys: string[] = currentFilteredColumns.map((column) => column.id);
-    setColumnIds(keys);
-  }, [currentFilteredColumns]);
-
-  useEffect(() => {
-    setSelectedColumns(currentSelectedColumns);
+    setColumnIds(currentSelectedColumns);
   }, [currentSelectedColumns]);
 
   useEffect(() => {
-    dispatch(setStoreSelectedColumns(debouncedSelectedColumns));
-  }, [debouncedSelectedColumns]);
+    dispatch(setSelectedColumns(debouncedColumnIds));
+  }, [debouncedColumnIds]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value: keys },
     } = event;
 
-    if (Array.isArray(keys) && Boolean(keys.length)) {
-      const newSelectedColumns: SelectedColumns = {};
-      keys.forEach((key) => {
-        newSelectedColumns[key] = true;
-      });
-
-      setColumnIds(keys);
-      setSelectedColumns(newSelectedColumns);
-    }
+    if (Array.isArray(keys) && Boolean(keys.length)) setColumnIds(keys);
   };
 
   return (
@@ -86,7 +66,7 @@ const ColumnsSelect: React.FC = () => {
       >
         {currentColumns.map((column) => (
           <MenuItem key={`column-select-item-${column.id}`} value={column.id}>
-            <Checkbox checked={Boolean(selectedColumns[column.id])} />
+            <Checkbox checked={columnIds.includes(column.id)} />
             <ListItemText primary={column.title} />
           </MenuItem>
         ))}

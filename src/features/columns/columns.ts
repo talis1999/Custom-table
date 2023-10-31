@@ -10,18 +10,14 @@ export interface Column {
   width?: number;
 }
 
-export interface SelectedColumns {
-  [columnId: string]: boolean;
-}
-
 interface ColumnsState {
   columns: Column[];
-  selectedColumns: SelectedColumns;
+  selectedColumns: string[];
 }
 
 const initialState: ColumnsState = {
   columns: [],
-  selectedColumns: {},
+  selectedColumns: [],
 };
 
 export const columnsSlice = createSlice({
@@ -32,8 +28,8 @@ export const columnsSlice = createSlice({
       state.columns = [...action.payload];
       state.selectedColumns = generateSelectedColumns([...action.payload]);
     },
-    setSelectedColumns: (state, action: PayloadAction<SelectedColumns>) => {
-      state.selectedColumns = { ...action.payload };
+    setSelectedColumns: (state, action: PayloadAction<string[]>) => {
+      state.selectedColumns = [...action.payload];
     },
   },
 });
@@ -56,7 +52,7 @@ export const selectColumns = createSelector([getColumns], (columns) => {
 export const selectFilteredColumns = createSelector(
   [selectColumns, getSelectedColumns],
   (columns, selectedColumns) =>
-    columns.filter((column) => selectedColumns[column.id])
+    columns.filter((column) => selectedColumns.includes(column.id))
 );
 
 export default columnsSlice.reducer;

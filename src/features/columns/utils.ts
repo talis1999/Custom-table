@@ -1,12 +1,4 @@
-import { Column, SelectedColumns } from "./columns";
+import { Column } from "./columns";
 
-export const generateSelectedColumns = (
-  columns: Column[] = []
-): SelectedColumns => {
-  const selectedColumns: SelectedColumns = {};
-  columns.forEach((column) => {
-    selectedColumns[column.id] = true;
-  });
-
-  return selectedColumns;
-};
+export const generateSelectedColumns = (columns: Column[] = []): string[] =>
+  columns.map((column) => column.id);
