@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
-import { generateSelectedColumns } from "./utils";
 
 export interface Column {
   id: string;
@@ -26,7 +25,7 @@ export const columnsSlice = createSlice({
   reducers: {
     setColumns: (state, action: PayloadAction<Column[]>) => {
       state.columns = [...action.payload];
-      state.selectedColumns = generateSelectedColumns([...action.payload]);
+      state.selectedColumns = [...action.payload].map((column) => column.id);
     },
     setSelectedColumns: (state, action: PayloadAction<string[]>) => {
       state.selectedColumns = [...action.payload];
@@ -52,6 +51,7 @@ export const selectColumns = createSelector([getColumns], (columns) => {
 export const selectFilteredColumns = createSelector(
   [selectColumns, getSelectedColumns],
   (columns, selectedColumns) =>
+    // Selected columns should be around the length of 20 at worst, therefore for now we will utilize includes
     columns.filter((column) => selectedColumns.includes(column.id))
 );
 
