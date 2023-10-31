@@ -3,7 +3,7 @@ import { Paper } from "@mui/material";
 
 import { useAppSelector } from "../../app/hooks";
 import { Row as RowType } from "../../features/data/data";
-import { selectColumns } from "../../features/columns/columns";
+import { selectFilteredColumns } from "../../features/columns/columns";
 import Cell from "./Cell";
 
 interface RowProps {
@@ -11,7 +11,7 @@ interface RowProps {
 }
 
 const Row: React.FC<RowProps> = ({ row }) => {
-  const columns = useAppSelector(selectColumns);
+  const columns = useAppSelector(selectFilteredColumns);
 
   return (
     <Paper
