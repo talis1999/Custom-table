@@ -37,7 +37,7 @@ const PageSizeSelect: React.FC = () => {
   };
 
   return (
-    <FormControl sx={{ my: 1, maxWidth: 150 }} size="small">
+    <FormControl sx={{ my: 1, minWidth: 100, maxWidth: 150 }} size="small">
       <Select
         MenuProps={MenuProps}
         value={pageSize}

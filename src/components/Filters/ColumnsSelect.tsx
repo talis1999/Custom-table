@@ -14,6 +14,7 @@ import {
   setSelectedColumns,
 } from "../../features/columns/columns";
 import useDebounce from "../../hooks/useDebounce";
+import getSelectedColumnsCounter from "../../utils/getSelectedColumnsCounter";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,6 +35,10 @@ const ColumnsSelect: React.FC = () => {
 
   const [columnIds, setColumnIds] = React.useState<string[]>([]);
   const debouncedColumnIds: string[] = useDebounce<string[]>(columnIds);
+
+  const selectedColumnsCounter: string = getSelectedColumnsCounter(
+    columnIds.length
+  );
 
   useEffect(() => {
     setColumnIds(currentSelectedColumns);
@@ -61,7 +66,7 @@ const ColumnsSelect: React.FC = () => {
         value={columnIds}
         onChange={handleChange}
         input={<OutlinedInput label="Columns" />}
-        renderValue={(selected) => `${selected.length} columns selected`}
+        renderValue={() => selectedColumnsCounter}
         MenuProps={MenuProps}
       >
         {currentColumns.map((column) => (
