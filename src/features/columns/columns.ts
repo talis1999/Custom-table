@@ -32,10 +32,13 @@ export const columnsSlice = createSlice({
       state.columns = [...action.payload];
       state.selectedColumns = generateSelectedColumns([...action.payload]);
     },
+    setSelectedColumns: (state, action: PayloadAction<SelectedColumns>) => {
+      state.selectedColumns = { ...action.payload };
+    },
   },
 });
 
-export const { setColumns } = columnsSlice.actions;
+export const { setColumns, setSelectedColumns } = columnsSlice.actions;
 
 const getColumns = (state: RootState) => state.columns.columns;
 const getSelectedColumns = (state: RootState) => state.columns.selectedColumns;

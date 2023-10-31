@@ -9,12 +9,13 @@ import Checkbox from "@mui/material/Checkbox";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
-  Column,
   SelectedColumns,
   selectColumns,
   selectSelectedColumns,
   selectFilteredColumns,
+  setSelectedColumns as setStoreSelectedColumns,
 } from "../../features/columns/columns";
+import useDebounce from "../../hooks/useDebounce";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,6 +39,8 @@ const ColumnsSelect: React.FC = () => {
   const [selectedColumns, setSelectedColumns] = React.useState<SelectedColumns>(
     {}
   );
+  const debouncedSelectedColumns: SelectedColumns =
+    useDebounce<SelectedColumns>(selectedColumns);
 
   useEffect(() => {
     const keys: string[] = currentFilteredColumns.map((column) => column.id);
@@ -48,17 +51,21 @@ const ColumnsSelect: React.FC = () => {
     setSelectedColumns(currentSelectedColumns);
   }, [currentSelectedColumns]);
 
+  useEffect(() => {
+    dispatch(setStoreSelectedColumns(debouncedSelectedColumns));
+  }, [debouncedSelectedColumns]);
+
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value: keys },
     } = event;
-    console.log("KEYS--", keys);
-    // avoid empty array !
-    if (Array.isArray(keys)) {
+
+    if (Array.isArray(keys) && Boolean(keys.length)) {
       const newSelectedColumns: SelectedColumns = {};
       keys.forEach((key) => {
         newSelectedColumns[key] = true;
       });
+
       setColumnIds(keys);
       setSelectedColumns(newSelectedColumns);
     }
