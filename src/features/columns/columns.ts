@@ -4,6 +4,7 @@ import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
 
 import type { RootState } from "../../app/store";
+import { shouldResetSortByColumn } from "./utils";
 
 export interface Column {
   id: string;
@@ -24,7 +25,7 @@ export enum Order {
   Descending = "desc",
 }
 
-interface SortByColumn {
+export interface SortByColumn {
   columnId: string;
   order: Order;
 }
@@ -45,11 +46,7 @@ export const columnsSlice = createSlice({
     },
     setSelectedColumns: (state, action: PayloadAction<string[]>) => {
       state.selectedColumns = [...action.payload];
-      // Reseting sortByColumnId if it was filtered out by column filters
-      if (
-        Boolean(state.sortByColumn.columnId) &&
-        !action.payload.includes(state.sortByColumn.columnId)
-      )
+      if (shouldResetSortByColumn(action.payload, state.sortByColumn))
         state.sortByColumn = { columnId: "", order: Order.Ascending };
     },
   },
