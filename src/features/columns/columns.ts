@@ -12,11 +12,18 @@ export interface Column {
 interface ColumnsState {
   columns: Column[];
   selectedColumns: string[];
+  sortByColumn: SortByColumn;
+}
+
+interface SortByColumn {
+  columnId: string;
+  ascending: boolean;
 }
 
 const initialState: ColumnsState = {
   columns: [],
   selectedColumns: [],
+  sortByColumn: { columnId: "", ascending: true },
 };
 
 export const columnsSlice = createSlice({
@@ -29,6 +36,12 @@ export const columnsSlice = createSlice({
     },
     setSelectedColumns: (state, action: PayloadAction<string[]>) => {
       state.selectedColumns = [...action.payload];
+      // Reseting sortByColumnId if it was filtered out by column filters
+      if (
+        Boolean(state.sortByColumn.columnId) &&
+        !action.payload.includes(state.sortByColumn.columnId)
+      )
+        state.sortByColumn = { columnId: "", ascending: true };
     },
   },
 });
@@ -37,6 +50,7 @@ export const { setColumns, setSelectedColumns } = columnsSlice.actions;
 
 const getColumns = (state: RootState) => state.columns.columns;
 const getSelectedColumns = (state: RootState) => state.columns.selectedColumns;
+const getSortByColumn = (state: RootState) => state.columns.sortByColumn;
 
 export const selectSelectedColumns = createSelector(
   [getSelectedColumns],
@@ -53,6 +67,15 @@ export const selectFilteredColumns = createSelector(
   (columns, selectedColumns) =>
     // Selected columns should be around the length of 20 at worst, therefore for now we will utilize includes
     columns.filter((column) => selectedColumns.includes(column.id))
+);
+
+export const selectSortByColumn = createSelector(
+  [getSortByColumn, selectFilteredColumns],
+  (sortBycolumn, filteredColumns) => {
+    if (!Boolean(sortBycolumn.columnId))
+      return { columnId: filteredColumns[0]?.id, ascending: true };
+    return sortBycolumn;
+  }
 );
 
 export default columnsSlice.reducer;
