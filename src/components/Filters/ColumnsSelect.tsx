@@ -46,8 +46,9 @@ const ColumnsSelect: React.FC = () => {
 
   const debouncedStringifiedColumnIds: string =
     useDebounce<string>(stringifiedColumnIds);
-  const debouncedColumnIds: string[] =
-    debouncedStringifiedColumnIds.split(", ");
+  const debouncedColumnIds: string[] = Boolean(debouncedStringifiedColumnIds)
+    ? debouncedStringifiedColumnIds.split(", ")
+    : [];
 
   useEffect(() => {
     if (Boolean(currentSelectedColumns.length))
@@ -55,7 +56,8 @@ const ColumnsSelect: React.FC = () => {
   }, [currentSelectedColumns]);
 
   useEffect(() => {
-    dispatch(setSelectedColumns(debouncedColumnIds));
+    if (Boolean(debouncedColumnIds.length))
+      dispatch(setSelectedColumns(debouncedColumnIds));
   }, [debouncedStringifiedColumnIds]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
