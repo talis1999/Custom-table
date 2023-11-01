@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
+import orderBy from "lodash/orderBy";
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
@@ -65,13 +66,7 @@ const selectFilteredRows = createSelector(
 const selectSortedRows = createSelector(
   [selectFilteredRows, selectSortByColumn],
   (rows, sortByColumn) => {
-    if (sortByColumn.ascending)
-      return [...rows].sort(
-        (a, b) => a[sortByColumn.columnId] - b[sortByColumn.columnId]
-      );
-    return [...rows].sort(
-      (a, b) => b[sortByColumn.columnId] - a[sortByColumn.columnId]
-    );
+    return orderBy(rows, sortByColumn.columnId, sortByColumn.order);
   }
 );
 

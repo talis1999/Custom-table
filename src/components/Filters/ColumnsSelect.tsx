@@ -7,6 +7,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 
+import sortBy from "lodash/sortBy";
+
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   Column,
@@ -62,8 +64,7 @@ const ColumnsSelect: React.FC = () => {
       target: { value: keys },
     } = event;
 
-    if (Array.isArray(keys) && Boolean(keys.length))
-      setColumnIds([...keys].sort());
+    if (Array.isArray(keys) && Boolean(keys.length)) setColumnIds(sortBy(keys));
   };
 
   return (

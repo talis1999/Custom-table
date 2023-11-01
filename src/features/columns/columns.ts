@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
+import get from "lodash/get";
+import sortBy from "lodash/sortBy";
 import type { RootState } from "../../app/store";
 
 export interface Column {
@@ -15,15 +17,20 @@ interface ColumnsState {
   sortByColumn: SortByColumn;
 }
 
+export enum Order {
+  Ascending = "asc",
+  Descending = "desc",
+}
+
 interface SortByColumn {
   columnId: string;
-  ascending: boolean;
+  order: Order;
 }
 
 const initialState: ColumnsState = {
   columns: [],
   selectedColumns: [],
-  sortByColumn: { columnId: "", ascending: true },
+  sortByColumn: { columnId: "", order: Order.Ascending },
 };
 
 export const columnsSlice = createSlice({
@@ -41,7 +48,7 @@ export const columnsSlice = createSlice({
         Boolean(state.sortByColumn.columnId) &&
         !action.payload.includes(state.sortByColumn.columnId)
       )
-        state.sortByColumn = { columnId: "", ascending: true };
+        state.sortByColumn = { columnId: "", order: Order.Ascending };
     },
   },
 });
@@ -54,15 +61,12 @@ const getSortByColumn = (state: RootState) => state.columns.sortByColumn;
 
 export const selectSelectedColumns = createSelector(
   [getSelectedColumns],
-  (selectedColumns) => {
-    return [...selectedColumns].sort();
-  }
+  (selectedColumns) => sortBy(selectedColumns)
 );
 
-export const selectColumns = createSelector([getColumns], (columns) => {
-  const sortedColumns: Column[] = [...columns];
-  return sortedColumns.sort((a, b) => a.ordinalNo - b.ordinalNo);
-});
+export const selectColumns = createSelector([getColumns], (columns) =>
+  sortBy(columns, "ordinalNo")
+);
 
 export const selectFilteredColumns = createSelector(
   [selectColumns, getSelectedColumns],
@@ -75,7 +79,7 @@ export const selectSortByColumn = createSelector(
   [getSortByColumn, selectFilteredColumns],
   (sortBycolumn, columns) => {
     if (!Boolean(sortBycolumn.columnId))
-      return { columnId: columns[0]?.id, ascending: true };
+      return { columnId: get(columns, "[0].id"), order: Order.Ascending };
     return sortBycolumn;
   }
 );
