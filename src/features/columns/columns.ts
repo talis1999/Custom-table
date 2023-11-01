@@ -54,7 +54,9 @@ const getSortByColumn = (state: RootState) => state.columns.sortByColumn;
 
 export const selectSelectedColumns = createSelector(
   [getSelectedColumns],
-  (selectedColumns) => selectedColumns
+  (selectedColumns) => {
+    return [...selectedColumns].sort();
+  }
 );
 
 export const selectColumns = createSelector([getColumns], (columns) => {
@@ -71,9 +73,9 @@ export const selectFilteredColumns = createSelector(
 
 export const selectSortByColumn = createSelector(
   [getSortByColumn, selectFilteredColumns],
-  (sortBycolumn, filteredColumns) => {
+  (sortBycolumn, columns) => {
     if (!Boolean(sortBycolumn.columnId))
-      return { columnId: filteredColumns[0]?.id, ascending: true };
+      return { columnId: columns[0]?.id, ascending: true };
     return sortBycolumn;
   }
 );

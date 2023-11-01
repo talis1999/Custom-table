@@ -9,6 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
+  Column,
   selectColumns,
   selectSelectedColumns,
   setSelectedColumns,
@@ -30,30 +31,39 @@ const MenuProps = {
 const ColumnsSelect: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const currentColumns = useAppSelector(selectColumns);
-  const currentSelectedColumns = useAppSelector(selectSelectedColumns);
+  const currentColumns: Column[] = useAppSelector(selectColumns);
+  const currentSelectedColumns: string[] = useAppSelector(
+    selectSelectedColumns
+  );
+  const stringifiedCurrentSelectedColumns: string =
+    currentSelectedColumns.join(", ");
 
   const [columnIds, setColumnIds] = useState<string[]>([]);
-  const debouncedColumnIds: string[] = useDebounce<string[]>(columnIds);
-
+  const stringifiedColumnIds: string = columnIds.join(", ");
   const selectedColumnsCounter: string = getSelectedColumnsCounter(
     columnIds.length
   );
 
+  const debouncedStringifiedColumnIds: string =
+    useDebounce<string>(stringifiedColumnIds);
+  const debouncedColumnIds: string[] =
+    debouncedStringifiedColumnIds.split(", ");
+
   useEffect(() => {
     setColumnIds(currentSelectedColumns);
-  }, [currentSelectedColumns]);
+  }, [stringifiedCurrentSelectedColumns]);
 
   useEffect(() => {
     dispatch(setSelectedColumns(debouncedColumnIds));
-  }, [debouncedColumnIds]);
+  }, [debouncedStringifiedColumnIds]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value: keys },
     } = event;
 
-    if (Array.isArray(keys) && Boolean(keys.length)) setColumnIds(keys);
+    if (Array.isArray(keys) && Boolean(keys.length))
+      setColumnIds([...keys].sort());
   };
 
   return (

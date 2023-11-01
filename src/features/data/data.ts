@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 
+import { selectSortByColumn } from "../columns/columns";
 import { rowIncludes, paginateRows } from "./utils";
 
 export interface Row {
@@ -61,13 +62,26 @@ const selectFilteredRows = createSelector(
   }
 );
 
+const selectSortedRows = createSelector(
+  [selectFilteredRows, selectSortByColumn],
+  (rows, sortByColumn) => {
+    if (sortByColumn.ascending)
+      return [...rows].sort(
+        (a, b) => a[sortByColumn.columnId] - b[sortByColumn.columnId]
+      );
+    return [...rows].sort(
+      (a, b) => b[sortByColumn.columnId] - a[sortByColumn.columnId]
+    );
+  }
+);
+
 export const selectPagesLength = createSelector(
-  [selectFilteredRows, getLimit],
+  [selectSortedRows, getLimit],
   (rows, limit) => Math.ceil(rows.length / limit)
 );
 
 export const selectPaginatedRows = createSelector(
-  [selectFilteredRows, getPage, getLimit],
+  [selectSortedRows, getPage, getLimit],
   (rows, page, limit) => paginateRows({ rows, page, limit })
 );
 
