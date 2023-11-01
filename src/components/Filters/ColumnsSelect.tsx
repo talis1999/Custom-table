@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -33,7 +33,7 @@ const ColumnsSelect: React.FC = () => {
   const currentColumns = useAppSelector(selectColumns);
   const currentSelectedColumns = useAppSelector(selectSelectedColumns);
 
-  const [columnIds, setColumnIds] = React.useState<string[]>([]);
+  const [columnIds, setColumnIds] = useState<string[]>([]);
   const debouncedColumnIds: string[] = useDebounce<string[]>(columnIds);
 
   const selectedColumnsCounter: string = getSelectedColumnsCounter(

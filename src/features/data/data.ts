@@ -13,6 +13,7 @@ interface DataState {
   searchQuery: string;
   page: number;
   limit: number;
+  groupedValues: string[] | number[] | boolean[];
 }
 
 const initialState: DataState = {
@@ -20,6 +21,7 @@ const initialState: DataState = {
   searchQuery: "",
   page: 1,
   limit: 25,
+  groupedValues: [],
 };
 
 export const dataSlice = createSlice({
@@ -49,6 +51,7 @@ const getRows = (state: RootState) => state.data.rows;
 export const getSearchQuery = (state: RootState) => state.data.searchQuery;
 export const getPage = (state: RootState) => state.data.page;
 export const getLimit = (state: RootState) => state.data.limit;
+const getGroupedValues = (state: RootState) => state.data.groupedValues;
 
 const selectFilteredRows = createSelector(
   [getRows, getSearchQuery],
