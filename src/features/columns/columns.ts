@@ -4,7 +4,7 @@ import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
 
 import type { RootState } from "../../app/store";
-import { shouldResetSortByColumn } from "./utils";
+import { shouldResetSortByColumn, generateDefaultSortByColumn } from "./utils";
 
 export interface Column {
   id: string;
@@ -85,7 +85,7 @@ export const selectSortByColumn = createSelector(
   (sortBycolumn, columns) => {
     // return current default value
     if (!Boolean(sortBycolumn.columnId))
-      return { columnId: get(columns, "[0].id"), order: Order.Ascending };
+      return generateDefaultSortByColumn(columns);
     return sortBycolumn;
   },
   {
