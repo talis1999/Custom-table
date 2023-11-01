@@ -37,8 +37,6 @@ const ColumnsSelect: React.FC = () => {
   const currentSelectedColumns: string[] = useAppSelector(
     selectSelectedColumns
   );
-  const stringifiedCurrentSelectedColumns: string =
-    currentSelectedColumns.join(", ");
 
   const [columnIds, setColumnIds] = useState<string[]>([]);
   const stringifiedColumnIds: string = columnIds.join(", ");
@@ -52,8 +50,9 @@ const ColumnsSelect: React.FC = () => {
     debouncedStringifiedColumnIds.split(", ");
 
   useEffect(() => {
-    setColumnIds(currentSelectedColumns);
-  }, [stringifiedCurrentSelectedColumns]);
+    if (Boolean(currentSelectedColumns.length))
+      setColumnIds(currentSelectedColumns);
+  }, [currentSelectedColumns]);
 
   useEffect(() => {
     dispatch(setSelectedColumns(debouncedColumnIds));

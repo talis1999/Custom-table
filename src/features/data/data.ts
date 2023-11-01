@@ -65,9 +65,8 @@ const selectFilteredRows = createSelector(
 
 const selectSortedRows = createSelector(
   [selectFilteredRows, selectSortByColumn],
-  (rows, sortByColumn) => {
-    return orderBy(rows, sortByColumn.columnId, sortByColumn.order);
-  }
+  (rows, sortByColumn) =>
+    orderBy(rows, sortByColumn.columnId, sortByColumn.order)
 );
 
 export const selectPagesLength = createSelector(

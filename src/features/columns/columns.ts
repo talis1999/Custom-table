@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import get from "lodash/get";
 import sortBy from "lodash/sortBy";
+import isEqual from "lodash/isEqual";
+
 import type { RootState } from "../../app/store";
 
 export interface Column {
@@ -61,7 +63,13 @@ const getSortByColumn = (state: RootState) => state.columns.sortByColumn;
 
 export const selectSelectedColumns = createSelector(
   [getSelectedColumns],
-  (selectedColumns) => sortBy(selectedColumns)
+  (selectedColumns) => sortBy(selectedColumns),
+  {
+    memoizeOptions: {
+      equalityCheck: isEqual,
+      resultEqualityCheck: isEqual,
+    },
+  }
 );
 
 export const selectColumns = createSelector([getColumns], (columns) =>
@@ -69,7 +77,7 @@ export const selectColumns = createSelector([getColumns], (columns) =>
 );
 
 export const selectFilteredColumns = createSelector(
-  [selectColumns, getSelectedColumns],
+  [selectColumns, selectSelectedColumns],
   (columns, selectedColumns) =>
     // Selected columns should be around the length of 20 at worst, therefore for now we will utilize includes
     columns.filter((column) => selectedColumns.includes(column.id))
@@ -78,9 +86,15 @@ export const selectFilteredColumns = createSelector(
 export const selectSortByColumn = createSelector(
   [getSortByColumn, selectFilteredColumns],
   (sortBycolumn, columns) => {
+    // return current default value
     if (!Boolean(sortBycolumn.columnId))
       return { columnId: get(columns, "[0].id"), order: Order.Ascending };
     return sortBycolumn;
+  },
+  {
+    memoizeOptions: {
+      resultEqualityCheck: isEqual,
+    },
   }
 );
 
