@@ -5,7 +5,7 @@ import CustomTable from "./components/CustomTable";
 
 const App: React.FC = () => {
   return (
-    <Container sx={{ height: "100vh" }}>
+    <Container sx={{ position: "relative" }}>
       <CustomTable />
     </Container>
   );
