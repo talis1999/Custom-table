@@ -15,7 +15,6 @@ const Row: React.FC<RowProps> = ({ row }) => {
 
   return (
     <Paper
-      id={`row-${row.id}`}
       variant="outlined"
       square
       sx={{
@@ -28,7 +27,12 @@ const Row: React.FC<RowProps> = ({ row }) => {
       }}
     >
       {columns.map((column) => (
-        <Cell data={row[column.id]} type={column.type} width={column.width} />
+        <Cell
+          key={`cell-${row.id}/${column.id}`}
+          data={row[column.id]}
+          type={column.type}
+          width={column.width}
+        />
       ))}
     </Paper>
   );

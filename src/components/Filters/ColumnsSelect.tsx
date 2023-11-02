@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,8 +7,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 
+import sortBy from "lodash/sortBy";
+
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
+  Column,
   selectColumns,
   selectSelectedColumns,
   setSelectedColumns,
@@ -30,30 +33,39 @@ const MenuProps = {
 const ColumnsSelect: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const currentColumns = useAppSelector(selectColumns);
-  const currentSelectedColumns = useAppSelector(selectSelectedColumns);
+  const currentColumns: Column[] = useAppSelector(selectColumns);
+  const currentSelectedColumns: string[] = useAppSelector(
+    selectSelectedColumns
+  );
 
-  const [columnIds, setColumnIds] = React.useState<string[]>([]);
-  const debouncedColumnIds: string[] = useDebounce<string[]>(columnIds);
-
+  const [columnIds, setColumnIds] = useState<string[]>([]);
+  const stringifiedColumnIds: string = columnIds.join(", ");
   const selectedColumnsCounter: string = getSelectedColumnsCounter(
     columnIds.length
   );
 
+  const debouncedStringifiedColumnIds: string =
+    useDebounce<string>(stringifiedColumnIds);
+  const debouncedColumnIds: string[] = Boolean(debouncedStringifiedColumnIds)
+    ? debouncedStringifiedColumnIds.split(", ")
+    : [];
+
   useEffect(() => {
-    setColumnIds(currentSelectedColumns);
+    if (Boolean(currentSelectedColumns.length))
+      setColumnIds(currentSelectedColumns);
   }, [currentSelectedColumns]);
 
   useEffect(() => {
-    dispatch(setSelectedColumns(debouncedColumnIds));
-  }, [debouncedColumnIds]);
+    if (Boolean(debouncedColumnIds.length))
+      dispatch(setSelectedColumns(debouncedColumnIds));
+  }, [debouncedStringifiedColumnIds]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value: keys },
     } = event;
 
-    if (Array.isArray(keys) && Boolean(keys.length)) setColumnIds(keys);
+    if (Array.isArray(keys) && Boolean(keys.length)) setColumnIds(sortBy(keys));
   };
 
   return (

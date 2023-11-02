@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
+import orderBy from "lodash/orderBy";
 import type { RootState } from "../../app/store";
 
+import { selectSortByColumn } from "../columns/columns";
 import { rowIncludes, paginateRows } from "./utils";
 
 export interface Row {
@@ -13,6 +15,7 @@ interface DataState {
   searchQuery: string;
   page: number;
   limit: number;
+  groupedValues: string[] | number[] | boolean[];
 }
 
 const initialState: DataState = {
@@ -20,6 +23,7 @@ const initialState: DataState = {
   searchQuery: "",
   page: 1,
   limit: 25,
+  groupedValues: [],
 };
 
 export const dataSlice = createSlice({
@@ -49,6 +53,7 @@ const getRows = (state: RootState) => state.data.rows;
 export const getSearchQuery = (state: RootState) => state.data.searchQuery;
 export const getPage = (state: RootState) => state.data.page;
 export const getLimit = (state: RootState) => state.data.limit;
+const getGroupedValues = (state: RootState) => state.data.groupedValues;
 
 const selectFilteredRows = createSelector(
   [getRows, getSearchQuery],
@@ -58,13 +63,19 @@ const selectFilteredRows = createSelector(
   }
 );
 
+const selectSortedRows = createSelector(
+  [selectFilteredRows, selectSortByColumn],
+  (rows, sortByColumn) =>
+    orderBy(rows, sortByColumn.columnId, sortByColumn.order)
+);
+
 export const selectPagesLength = createSelector(
-  [selectFilteredRows, getLimit],
-  (rows, limit) => Math.ceil(rows.length / limit)
+  [selectSortedRows, getLimit],
+  (rows, limit) => Math.ceil(rows.length / limit) || 1
 );
 
 export const selectPaginatedRows = createSelector(
-  [selectFilteredRows, getPage, getLimit],
+  [selectSortedRows, getPage, getLimit],
   (rows, page, limit) => paginateRows({ rows, page, limit })
 );
 
