@@ -19,7 +19,7 @@ export const generateDefaultSortByColumn = (
   order: Order.Ascending,
 });
 
-const stringToOrderEnum = (value: string = "") => {
+const stringToOrderEnum = (value: string = ""): Order => {
   switch (value) {
     case "asc":
       return Order.Ascending;
@@ -36,4 +36,15 @@ export const stringToSortByColumn = (value: string = ""): SortByColumn => {
     columnId: get(splitValue, "[0]", ""),
     order: stringToOrderEnum(get(splitValue, "[1]", "")),
   };
+};
+
+export const getReverseOrder = (order: Order): Order => {
+  switch (order) {
+    case Order.Ascending:
+      return Order.Descending;
+    case Order.Descending:
+      return Order.Ascending;
+    default:
+      return Order.Ascending;
+  }
 };

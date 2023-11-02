@@ -8,7 +8,7 @@ import Row from "./Row";
 
 const Rows: React.FC = () => {
   const rows = useAppSelector(selectPaginatedRows);
-  console.log("!-- ROW RENDER --!");
+  console.log("!-- ROWS RENDER --!");
 
   return (
     <Box

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
@@ -13,7 +13,10 @@ import {
 
 import Column from "./Column";
 import useDebounce from "../../hooks/useDebounce";
-import { stringToSortByColumn } from "../../features/columns/utils";
+import {
+  stringToSortByColumn,
+  getReverseOrder,
+} from "../../features/columns/utils";
 
 const Columns: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +35,17 @@ const Columns: React.FC = () => {
   );
   const debouncedSortByColumn: SortByColumn = stringToSortByColumn(
     debouncedStringifiedSortByColumn
+  );
+
+  const changeSortByColumn = useCallback(
+    (columnId: string) => {
+      setSortByColumn((prevState) => {
+        if (prevState.columnId === columnId)
+          return { ...prevState, order: getReverseOrder(prevState.order) };
+        return { columnId, order: Order.Ascending };
+      });
+    },
+    [setSortByColumn]
   );
 
   useEffect(() => {
@@ -53,7 +67,18 @@ const Columns: React.FC = () => {
       }}
     >
       {columns.map(({ id, title, width }) => (
-        <Column key={`col-${id}`} title={title} width={width} />
+        <Column
+          key={`col-${id}`}
+          columnId={id}
+          title={title}
+          isSelected={id === sortByColumn.columnId}
+          isAscending={
+            sortByColumn.order === Order.Ascending ||
+            id !== sortByColumn.columnId
+          }
+          changeSortByColumn={changeSortByColumn}
+          width={width}
+        />
       ))}
     </Box>
   );
