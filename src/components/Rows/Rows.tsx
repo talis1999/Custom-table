@@ -18,7 +18,8 @@ const Rows: React.FC = () => {
         backgroundColor: "#a5b1c2",
       }}
     >
-      {Boolean(rows.length) && rows.map((row) => <Row row={row} />)}
+      {Boolean(rows.length) &&
+        rows.map((row) => <Row key={`row-${row.id}`} row={row} />)}
     </Box>
   );
 };

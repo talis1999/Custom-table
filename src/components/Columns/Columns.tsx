@@ -19,8 +19,8 @@ const Columns: React.FC = () => {
         display: "flex",
       }}
     >
-      {columns.map((column) => (
-        <Column id={column.id} title={column.title} width={column.width} />
+      {columns.map(({ id, title, width }) => (
+        <Column key={`col-${id}`} title={title} width={width} />
       ))}
     </Box>
   );
