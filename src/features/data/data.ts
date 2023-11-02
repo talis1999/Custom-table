@@ -71,7 +71,7 @@ const selectSortedRows = createSelector(
 
 export const selectPagesLength = createSelector(
   [selectSortedRows, getLimit],
-  (rows, limit) => Math.ceil(rows.length / limit)
+  (rows, limit) => Math.ceil(rows.length / limit) || 1
 );
 
 export const selectPaginatedRows = createSelector(
