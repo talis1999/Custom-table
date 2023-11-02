@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
+import ArrowUp from "@mui/icons-material/ArrowDropUpSharp";
 
 import { COLUMN_DEFAULT_WIDTH } from "../../constants/constants";
 
@@ -21,10 +22,24 @@ const Column: React.FC<ColumnProps> = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontWeight: "bold",
+        gap: "2px",
       }}
     >
-      <Box>{title}</Box>
+      <IconButton aria-label="delete">
+        <ArrowUp fontSize="small" />
+      </IconButton>
+      <Typography
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          flex: 1,
+          fontWeight: "bold",
+          position: "relative",
+          top: "1px",
+        }}
+      >
+        {title}
+      </Typography>
     </Box>
   );
 };
