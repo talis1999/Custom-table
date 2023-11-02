@@ -20,9 +20,11 @@ const Column: React.FC<ColumnProps> = ({
       sx={{
         width: `${width}px`,
         px: 1,
+        py: 0.5,
         display: "flex",
         alignItems: "center",
-        justifyContent: "flex-start",
+        // justifyContent: "flex-end",
+        justifyContent: "center",
         fontWeight: "bold",
       }}
     >
