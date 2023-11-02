@@ -44,7 +44,10 @@ const PageSizeSelect: React.FC = () => {
         onChange={handlePageSizeChange}
       >
         {PAGE_SIZES.map((pageSize) => (
-          <MenuItem value={pageSize}>{`${pageSize} rows`}</MenuItem>
+          <MenuItem
+            key={`page-size-${pageSize}`}
+            value={pageSize}
+          >{`${pageSize} rows`}</MenuItem>
         ))}
       </Select>
     </FormControl>
