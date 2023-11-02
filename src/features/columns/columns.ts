@@ -49,10 +49,14 @@ export const columnsSlice = createSlice({
       if (shouldResetSortByColumn(action.payload, state.sortByColumn))
         state.sortByColumn = { columnId: "", order: Order.Ascending };
     },
+    setSortByColumn: (state, action: PayloadAction<SortByColumn>) => {
+      state.sortByColumn = { ...action.payload };
+    },
   },
 });
 
-export const { setColumns, setSelectedColumns } = columnsSlice.actions;
+export const { setColumns, setSelectedColumns, setSortByColumn } =
+  columnsSlice.actions;
 
 const getColumns = (state: RootState) => state.columns.columns;
 const getSelectedColumns = (state: RootState) => state.columns.selectedColumns;
