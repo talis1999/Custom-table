@@ -24,6 +24,7 @@ const Row: React.FC<RowProps> = ({ row }) => {
         py: 2,
         my: "2px",
         alignItems: "center",
+        backgroundColor: "#768698",
       }}
     >
       {columns.map((column) => (

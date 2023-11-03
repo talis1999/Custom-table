@@ -12,6 +12,7 @@ export interface Column {
   title: string;
   type: "string" | "number" | "boolian" | "options";
   width?: number;
+  options?: string[] | number[];
 }
 
 interface ColumnsState {
