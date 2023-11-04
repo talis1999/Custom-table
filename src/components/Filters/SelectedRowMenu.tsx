@@ -5,6 +5,7 @@ import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import CancelIcon from "@mui/icons-material/CancelOutlined";
+import { blue, red } from "@mui/material/colors";
 
 const SelectedRowMenu: React.FC = () => {
   return (
@@ -18,20 +19,44 @@ const SelectedRowMenu: React.FC = () => {
         gap: 0.5,
       }}
     >
-      <IconButton aria-label="previos" onClick={() => {}}>
+      <IconButton
+        aria-label="group"
+        onClick={() => {}}
+        sx={{
+          ":hover": {
+            color: blue[200],
+          },
+        }}
+      >
         <CompressIcon fontSize="small" />
       </IconButton>
-      <IconButton aria-label="previos" onClick={() => {}}>
+      <IconButton
+        aria-label="add"
+        onClick={() => {}}
+        sx={{ ":hover": { color: blue[200] } }}
+      >
         <AddIcon fontSize="small" />
       </IconButton>
-      <IconButton aria-label="previos" onClick={() => {}}>
+      <IconButton
+        aria-label="edit"
+        onClick={() => {}}
+        sx={{ ":hover": { color: blue[200] } }}
+      >
         <EditIcon fontSize="small" />
       </IconButton>
-      <IconButton aria-label="previos" onClick={() => {}}>
+      <IconButton
+        aria-label="delete"
+        onClick={() => {}}
+        sx={{ ":hover": { color: blue[200] } }}
+      >
         <DeleteIcon fontSize="small" />
       </IconButton>
       <Divider sx={{ my: "-1px" }} orientation="vertical" flexItem />
-      <IconButton aria-label="previos" onClick={() => {}}>
+      <IconButton
+        aria-label="cancel"
+        onClick={() => {}}
+        sx={{ ":hover": { color: red[300] } }}
+      >
         <CancelIcon fontSize="small" />
       </IconButton>
     </Box>
