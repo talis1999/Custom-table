@@ -1,9 +1,12 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import { COLUMN_DEFAULT_WIDTH, ColumnTypes } from "../../constants/constants";
+import {
+  COLUMN_DEFAULT_WIDTH,
+  ColumnTypes,
+} from "../../features/columns/constants";
 
 interface CellProps {
   data: string | boolean | number;
@@ -25,6 +28,7 @@ const Cell: React.FC<CellProps> = ({
         position: "relative",
         display: "flex",
         justifyContent: "center",
+        boxSizing: "border-box",
       }}
     >
       {type === ColumnTypes.Boolian ? (
@@ -38,7 +42,9 @@ const Cell: React.FC<CellProps> = ({
           />
         )
       ) : (
-        data
+        <Tooltip title={data}>
+          <Typography noWrap={true}>{data}</Typography>
+        </Tooltip>
       )}
     </Box>
   );

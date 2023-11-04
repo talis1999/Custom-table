@@ -3,7 +3,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import ArrowUp from "@mui/icons-material/ArrowDropUpSharp";
 import ArrowDown from "@mui/icons-material/ArrowDropDownSharp";
 
-import { COLUMN_DEFAULT_WIDTH } from "../../constants/constants";
+import { COLUMN_DEFAULT_WIDTH } from "../../features/columns/constants";
 
 interface ColumnProps {
   columnId: string;
@@ -38,6 +38,7 @@ const Column: React.FC<ColumnProps> = ({
         alignItems: "center",
         justifyContent: "center",
         gap: "2px",
+        boxSizing: "border-box",
       }}
     >
       <IconButton

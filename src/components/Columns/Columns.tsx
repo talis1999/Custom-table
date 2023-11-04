@@ -10,6 +10,7 @@ import {
   Order,
   setSortByColumn as setCurrentSortByColumn,
 } from "../../features/columns/columns";
+import { COLUMNS_PADDING_X } from "../../features/columns/constants";
 
 import Column from "./Column";
 import useDebounce from "../../hooks/useDebounce";
@@ -61,7 +62,7 @@ const Columns: React.FC = () => {
       sx={{
         backgroundColor: "#66788c",
         color: "#F5F7F8",
-        px: 3,
+        px: COLUMNS_PADDING_X,
         py: 1.5,
         display: "flex",
       }}
