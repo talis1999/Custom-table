@@ -1,4 +1,4 @@
-export const COLUMN_DEFAULT_WIDTH: number = 50;
+export const COLUMN_DEFAULT_WIDTH: number = 150;
 
 export const DEFAULT_DELAY: number = 500;
 
