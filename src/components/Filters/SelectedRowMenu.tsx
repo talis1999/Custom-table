@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, IconButton, Divider } from "@mui/material";
 import CompressIcon from "@mui/icons-material/CompressOutlined";
+import ExpandIcon from "@mui/icons-material/ExpandOutlined";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import SaveIcon from "@mui/icons-material/SaveOutlined";
 import CancelIcon from "@mui/icons-material/CancelOutlined";
 import { blue, red } from "@mui/material/colors";
 
@@ -31,6 +33,17 @@ const SelectedRowMenu: React.FC = () => {
         <CompressIcon fontSize="small" />
       </IconButton>
       <IconButton
+        aria-label="expand"
+        onClick={() => {}}
+        sx={{
+          ":hover": {
+            color: blue[200],
+          },
+        }}
+      >
+        <ExpandIcon fontSize="small" />
+      </IconButton>
+      <IconButton
         aria-label="add"
         onClick={() => {}}
         sx={{ ":hover": { color: blue[200] } }}
@@ -52,6 +65,13 @@ const SelectedRowMenu: React.FC = () => {
         <DeleteIcon fontSize="small" />
       </IconButton>
       <Divider sx={{ my: "-1px" }} orientation="vertical" flexItem />
+      <IconButton
+        aria-label="save"
+        onClick={() => {}}
+        sx={{ ":hover": { color: blue[200] } }}
+      >
+        <SaveIcon fontSize="small" />
+      </IconButton>
       <IconButton
         aria-label="cancel"
         onClick={() => {}}
