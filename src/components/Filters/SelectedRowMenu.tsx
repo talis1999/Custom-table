@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Divider } from "@mui/material";
 import CompressIcon from "@mui/icons-material/CompressOutlined";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import CancelIcon from "@mui/icons-material/CancelOutlined";
 
 const SelectedRowMenu: React.FC = () => {
   return (
@@ -27,7 +28,11 @@ const SelectedRowMenu: React.FC = () => {
         <EditIcon fontSize="small" />
       </IconButton>
       <IconButton aria-label="previos" onClick={() => {}}>
-        <DeleteOutlineIcon fontSize="small" />
+        <DeleteIcon fontSize="small" />
+      </IconButton>
+      <Divider sx={{ my: "-1px" }} orientation="vertical" flexItem />
+      <IconButton aria-label="previos" onClick={() => {}}>
+        <CancelIcon fontSize="small" />
       </IconButton>
     </Box>
   );
