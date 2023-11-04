@@ -19,11 +19,11 @@ const SelectedRowMenu: React.FC = () => {
       }}
     >
       {LEFT_MENU_BUTTONS.map((menuButton) => (
-        <MenuButton buttonType={menuButton} />
+        <MenuButton key={`menu-button-${menuButton}`} buttonType={menuButton} />
       ))}
       <Divider sx={{ my: "-1px" }} orientation="vertical" flexItem />
       {RIGHT_MENU_BUTTONS.map((menuButton) => (
-        <MenuButton buttonType={menuButton} />
+        <MenuButton key={`menu-button-${menuButton}`} buttonType={menuButton} />
       ))}
     </Box>
   );
