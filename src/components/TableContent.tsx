@@ -19,8 +19,14 @@ const TableContent: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ marginTop: 1 }}>
-        <Columns />
-        <Rows />
+        <Box
+          sx={{
+            overflowX: "auto",
+          }}
+        >
+          <Columns />
+          <Rows />
+        </Box>
         <TablePagination />
       </Box>
     </ThemeProvider>

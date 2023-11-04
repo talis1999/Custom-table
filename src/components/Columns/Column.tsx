@@ -38,6 +38,7 @@ const Column: React.FC<ColumnProps> = ({
         alignItems: "center",
         justifyContent: "center",
         gap: "2px",
+        boxSizing: "border-box",
       }}
     >
       <IconButton

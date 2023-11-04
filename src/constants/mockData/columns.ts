@@ -48,7 +48,7 @@ const COLUMNS: Column[] = [
     ordinalNo: 7,
     title: "Purchases",
     type: "number",
-    width: 100,
+    width: 150,
   },
   {
     id: "008",
