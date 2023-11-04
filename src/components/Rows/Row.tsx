@@ -31,6 +31,7 @@ const Row: React.FC<RowProps> = ({ row }) => {
         alignItems: "center",
         backgroundColor: "#768698",
         borderWidth: 0,
+        transition: "background-color 0.3s ease",
         ":hover": { bgcolor: "#8a9db1", cursor: "pointer" },
       }}
       onClick={handleClick}
