@@ -14,6 +14,10 @@ interface RowProps {
 const Row: React.FC<RowProps> = ({ row }) => {
   const columns = useAppSelector(selectFilteredColumns);
 
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    console.log("ROW_ID- ", row.id);
+  };
+
   return (
     <Paper
       variant="outlined"
@@ -27,7 +31,9 @@ const Row: React.FC<RowProps> = ({ row }) => {
         alignItems: "center",
         backgroundColor: "#768698",
         borderWidth: 0,
+        ":hover": { bgcolor: "#8a9db1", cursor: "pointer" },
       }}
+      onClick={handleClick}
     >
       {columns.map((column) => (
         <Cell
