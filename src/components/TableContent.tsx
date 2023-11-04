@@ -1,35 +1,25 @@
 import React from "react";
+import { Box } from "@mui/material";
+
+import { useAppSelector } from "../app/hooks";
+import { selectColumnsWidth } from "../features/columns/columns";
+
 import Columns from "./Columns/Columns";
 import Rows from "./Rows/Rows";
-import TablePagination from "./Pagination/TablePagination";
-import { Box, ThemeProvider, createTheme } from "@mui/material";
-
-const theme = createTheme({
-  palette: {
-    background: {
-      paper: "#778ca3",
-    },
-    text: {
-      primary: "#F5F7F8",
-    },
-  },
-});
 
 const TableContent: React.FC = () => {
+  const columnWidth: number = useAppSelector(selectColumnsWidth);
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ marginTop: 1 }}>
-        <Box
-          sx={{
-            overflowX: "auto",
-          }}
-        >
-          <Columns />
-          <Rows />
-        </Box>
-        <TablePagination />
+    <Box sx={{ marginTop: 1, overflowX: "auto" }}>
+      <Box
+        sx={{
+          minWidth: `${columnWidth}px`,
+        }}
+      >
+        <Columns />
+        <Rows />
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 };
 

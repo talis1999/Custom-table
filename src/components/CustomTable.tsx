@@ -1,14 +1,27 @@
 import React, { useEffect } from "react";
-import { useAppDispatch } from "../app/hooks";
+import { Box, ThemeProvider, createTheme } from "@mui/material";
 
+import { useAppDispatch } from "../app/hooks";
 import { setRows } from "../features/data/data";
 import { setColumns } from "../features/columns/columns";
+
 import TableFilters from "./Filters/TableFilters";
 import TableContent from "./TableContent";
-import { Box } from "@mui/material";
+import TablePagination from "./Pagination/TablePagination";
 
 import COLUMNS from "../constants/mockData/columns";
 import ROWS from "../constants/mockData/data";
+
+const theme = createTheme({
+  palette: {
+    background: {
+      paper: "#778ca3",
+    },
+    text: {
+      primary: "#F5F7F8",
+    },
+  },
+});
 
 const CustomTable: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +34,10 @@ const CustomTable: React.FC = () => {
   return (
     <Box sx={{ border: "black 1px dotted", p: 1, my: 2, height: "80%" }}>
       <TableFilters />
-      <TableContent />
+      <ThemeProvider theme={theme}>
+        <TableContent />
+        <TablePagination />
+      </ThemeProvider>
     </Box>
   );
 };

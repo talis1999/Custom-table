@@ -5,6 +5,7 @@ import isEqual from "lodash/isEqual";
 
 import type { RootState } from "../../app/store";
 import { shouldResetSortByColumn, generateDefaultSortByColumn } from "./utils";
+import { COLUMNS_PADDING_X, COLUMN_DEFAULT_WIDTH } from "./constants";
 
 export interface Column {
   id: string;
@@ -62,6 +63,16 @@ export const { setColumns, setSelectedColumns, setSortByColumn } =
 const getColumns = (state: RootState) => state.columns.columns;
 const getSelectedColumns = (state: RootState) => state.columns.selectedColumns;
 const getSortByColumn = (state: RootState) => state.columns.sortByColumn;
+
+export const selectColumnsWidth = createSelector([getColumns], (columns) => {
+  const columnsTotalWidth: number = columns.reduce(
+    (totalWidth, column) => totalWidth + (column.width || COLUMN_DEFAULT_WIDTH),
+    0
+  );
+  const columnsPaddingTotalWidth: number = 2 * 8 * COLUMNS_PADDING_X;
+
+  return columnsTotalWidth + columnsPaddingTotalWidth;
+});
 
 export const selectSelectedColumns = createSelector(
   [getSelectedColumns],

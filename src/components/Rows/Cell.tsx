@@ -3,7 +3,10 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import { COLUMN_DEFAULT_WIDTH, ColumnTypes } from "../../constants/constants";
+import {
+  COLUMN_DEFAULT_WIDTH,
+  ColumnTypes,
+} from "../../features/columns/constants";
 
 interface CellProps {
   data: string | boolean | number;

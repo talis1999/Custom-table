@@ -5,7 +5,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getLimit, setLimit } from "../../features/data/data";
 
-import { PAGE_SIZES } from "../../constants/constants";
+import { PAGE_SIZES } from "../../features/data/constants";
 
 const ITEM_HEIGHT = 36;
 const ITEM_PADDING_TOP = 8;

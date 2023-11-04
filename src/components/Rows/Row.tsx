@@ -4,6 +4,7 @@ import { Paper } from "@mui/material";
 import { useAppSelector } from "../../app/hooks";
 import { Row as RowType } from "../../features/data/data";
 import { selectFilteredColumns } from "../../features/columns/columns";
+import { COLUMNS_PADDING_X } from "../../features/columns/constants";
 import Cell from "./Cell";
 
 interface RowProps {
@@ -20,11 +21,12 @@ const Row: React.FC<RowProps> = ({ row }) => {
       sx={{
         display: "flex",
         justifyContent: "flex-start",
-        px: 3,
-        py: 2,
+        px: COLUMNS_PADDING_X,
+        py: 2.5,
         my: "2px",
         alignItems: "center",
         backgroundColor: "#768698",
+        borderWidth: 0,
       }}
     >
       {columns.map((column) => (
