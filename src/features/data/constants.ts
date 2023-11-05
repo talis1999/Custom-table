@@ -7,7 +7,7 @@ export enum RowMenu {
   Edit = "edit",
   Delete = "delete",
   Save = "save",
-  Cencel = "cancel",
+  Cancel = "cancel",
 }
 
 export const LEFT_MENU_BUTTONS: RowMenu[] = [
@@ -18,4 +18,4 @@ export const LEFT_MENU_BUTTONS: RowMenu[] = [
   RowMenu.Delete,
 ];
 
-export const RIGHT_MENU_BUTTONS: RowMenu[] = [RowMenu.Save, RowMenu.Cencel];
+export const RIGHT_MENU_BUTTONS: RowMenu[] = [RowMenu.Save, RowMenu.Cancel];

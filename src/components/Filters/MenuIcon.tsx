@@ -20,7 +20,7 @@ const MenuIcon: React.FC<MenuIconProps> = ({ iconType }) => {
   if (iconType === RowMenu.Edit) return <EditIcon fontSize="small" />;
   if (iconType === RowMenu.Delete) return <DeleteIcon fontSize="small" />;
   if (iconType === RowMenu.Save) return <SaveIcon fontSize="small" />;
-  if (iconType === RowMenu.Cencel) return <CancelIcon fontSize="small" />;
+  if (iconType === RowMenu.Cancel) return <CancelIcon fontSize="small" />;
   return null;
 };
 

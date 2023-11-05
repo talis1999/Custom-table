@@ -28,7 +28,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     }
     if (buttonType === RowMenu.Save) {
     }
-    if (buttonType === RowMenu.Cencel) {
+    if (buttonType === RowMenu.Cancel) {
     }
   };
   return (
@@ -39,7 +39,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
         disabled={!isEnabled}
         sx={{
           ":hover": {
-            color: buttonType === RowMenu.Cencel ? red[300] : blue[200],
+            color: buttonType === RowMenu.Cancel ? red[300] : blue[200],
           },
         }}
       >
