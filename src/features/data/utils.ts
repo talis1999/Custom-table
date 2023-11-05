@@ -27,7 +27,7 @@ export const paginateRows = ({
 export const isRowMenuButtonEnabled = (
   selectedRow: SelectedRow,
   buttonType: RowMenu
-): Boolean => {
+): boolean => {
   const { rowId, groupValue, upsertModeActive } = selectedRow;
 
   if (!Boolean(rowId) && !Boolean(groupValue) && !upsertModeActive)

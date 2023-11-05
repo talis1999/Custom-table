@@ -8,12 +8,12 @@ import { RowMenu } from "../../features/data/constants";
 
 interface MenuButtonProps {
   buttonType: RowMenu;
-  isEnabled?: boolean;
+  isEnabled: boolean;
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({
   buttonType,
-  isEnabled = true,
+  isEnabled = false,
 }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (buttonType === RowMenu.Group) {
