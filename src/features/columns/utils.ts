@@ -16,6 +16,7 @@ export const generateDefaultSortByColumn = (
   columns: Column[]
 ): SortByColumn => ({
   columnId: get(columns, "[0].id", ""),
+  columnTitle: get(columns, "[0].title", ""),
   order: Order.Ascending,
 });
 
@@ -34,7 +35,8 @@ export const stringToSortByColumn = (value: string = ""): SortByColumn => {
   const splitValue: string[] = value.split(", ");
   return {
     columnId: get(splitValue, "[0]", ""),
-    order: stringToOrderEnum(get(splitValue, "[1]", "")),
+    columnTitle: get(splitValue, "[1]", ""),
+    order: stringToOrderEnum(get(splitValue, "[2]", "")),
   };
 };
 

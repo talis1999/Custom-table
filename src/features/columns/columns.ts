@@ -4,7 +4,11 @@ import isEqual from "lodash/isEqual";
 
 import type { RootState } from "../../app/store";
 import { shouldResetSortByColumn, generateDefaultSortByColumn } from "./utils";
-import { COLUMNS_PADDING_X, COLUMN_DEFAULT_WIDTH } from "./constants";
+import {
+  COLUMNS_PADDING_X,
+  COLUMN_DEFAULT_WIDTH,
+  INITIAL_SORT_BY_COLUMN,
+} from "./constants";
 
 export interface Column {
   id: string;
@@ -28,13 +32,14 @@ export enum Order {
 
 export interface SortByColumn {
   columnId: string;
+  columnTitle: string;
   order: Order;
 }
 
 const initialState: ColumnsState = {
   columns: [],
   selectedColumns: [],
-  sortByColumn: { columnId: "", order: Order.Ascending },
+  sortByColumn: INITIAL_SORT_BY_COLUMN,
 };
 
 export const columnsSlice = createSlice({
@@ -48,7 +53,7 @@ export const columnsSlice = createSlice({
     setSelectedColumns: (state, action: PayloadAction<string[]>) => {
       state.selectedColumns = [...action.payload];
       if (shouldResetSortByColumn(action.payload, state.sortByColumn))
-        state.sortByColumn = { columnId: "", order: Order.Ascending };
+        state.sortByColumn = INITIAL_SORT_BY_COLUMN;
     },
     setSortByColumn: (state, action: PayloadAction<SortByColumn>) => {
       state.sortByColumn = { ...action.payload };

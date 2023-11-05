@@ -10,7 +10,10 @@ import {
   Order,
   setSortByColumn as setCurrentSortByColumn,
 } from "../../features/columns/columns";
-import { COLUMNS_PADDING_X } from "../../features/columns/constants";
+import {
+  COLUMNS_PADDING_X,
+  INITIAL_SORT_BY_COLUMN,
+} from "../../features/columns/constants";
 
 import Column from "./Column";
 import useDebounce from "../../hooks/useDebounce";
@@ -25,11 +28,10 @@ const Columns: React.FC = () => {
   const columns: ColumnType[] = useAppSelector(selectFilteredColumns);
   const CurrentSortByColumn: SortByColumn = useAppSelector(selectSortByColumn);
 
-  const [sortByColumn, setSortByColumn] = useState<SortByColumn>({
-    columnId: "",
-    order: Order.Ascending,
-  });
-  const stringifiedSortByColumn: string = `${sortByColumn.columnId}, ${sortByColumn.order}`;
+  const [sortByColumn, setSortByColumn] = useState<SortByColumn>(
+    INITIAL_SORT_BY_COLUMN
+  );
+  const stringifiedSortByColumn: string = `${sortByColumn.columnId}, ${sortByColumn.columnTitle}, ${sortByColumn.order}`;
 
   const debouncedStringifiedSortByColumn: string = useDebounce<string>(
     stringifiedSortByColumn
@@ -39,11 +41,11 @@ const Columns: React.FC = () => {
   );
 
   const changeSortByColumn = useCallback(
-    (columnId: string) => {
+    (columnId: string, columnTitle: string) => {
       setSortByColumn((prevState) => {
         if (prevState.columnId === columnId)
           return { ...prevState, order: getReverseOrder(prevState.order) };
-        return { columnId, order: Order.Ascending };
+        return { columnId, columnTitle, order: Order.Ascending };
       });
     },
     [setSortByColumn]

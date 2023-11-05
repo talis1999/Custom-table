@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import orderBy from "lodash/orderBy";
 import isEqual from "lodash/isEqual";
+import isEmpty from "lodash/isEmpty";
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
@@ -9,6 +10,12 @@ import { rowIncludes, paginateRows } from "./utils";
 export interface Row {
   id: string;
   [columnId: string]: string | number | boolean;
+}
+
+export interface GroupRow {
+  columnId: string | number | boolean;
+  columnTitle: string;
+  rowsCount: number;
 }
 
 export interface GroupedValues {
@@ -103,11 +110,29 @@ export const selectSelectedRow = createSelector(
   }
 );
 
+const selectGroupedValues = createSelector(
+  [getGroupedValues],
+  (groupedValues) => groupedValues,
+  {
+    memoizeOptions: {
+      equalityCheck: isEqual,
+    },
+  }
+);
+
 const selectFilteredRows = createSelector(
   [getRows, getSearchQuery],
   (rows, searchQuery) => {
     if (!searchQuery.length) return rows;
     return rows.filter((row) => rowIncludes(row, searchQuery));
+  }
+);
+
+const selectGroupedRows = createSelector(
+  [selectFilteredRows, selectGroupedValues],
+  (rows, groupedValues) => {
+    if (isEmpty(groupedValues)) return rows;
+    return rows; // create a util
   }
 );
 
