@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import { blue, red } from "@mui/material/colors";
 
@@ -49,4 +49,4 @@ const MenuButton: React.FC<MenuButtonProps> = ({
   );
 };
 
-export default MenuButton;
+export default memo(MenuButton);
