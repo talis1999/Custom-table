@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
-import get from "lodash/get";
 import sortBy from "lodash/sortBy";
 import isEqual from "lodash/isEqual";
 

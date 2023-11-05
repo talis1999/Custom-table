@@ -5,7 +5,7 @@ import { useAppDispatch } from "../app/hooks";
 import { setRows } from "../features/data/data";
 import { setColumns } from "../features/columns/columns";
 
-import TableFilters from "./Filters/TableFilters";
+import TableToolbar from "./Toolbar/TableToolbar";
 import TableContent from "./TableContent";
 import TablePagination from "./Pagination/TablePagination";
 
@@ -33,7 +33,7 @@ const CustomTable: React.FC = () => {
 
   return (
     <Box sx={{ border: "black 1px dotted", p: 1, my: 2, height: "80%" }}>
-      <TableFilters />
+      <TableToolbar />
       <ThemeProvider theme={theme}>
         <TableContent />
         <TablePagination />

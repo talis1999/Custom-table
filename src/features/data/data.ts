@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import orderBy from "lodash/orderBy";
+import isEqual from "lodash/isEqual";
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
@@ -10,12 +11,19 @@ export interface Row {
   [columnId: string]: any;
 }
 
+export interface SelectedRow {
+  rowId: string;
+  groupValue: string;
+  upsertModeActive: boolean;
+}
+
 interface DataState {
   rows: Row[];
   searchQuery: string;
   page: number;
   limit: number;
-  groupedValues: string[] | number[] | boolean[];
+  selectedRow: SelectedRow;
+  // groupedValues: string[] | number[] | boolean[];
 }
 
 const initialState: DataState = {
@@ -23,7 +31,12 @@ const initialState: DataState = {
   searchQuery: "",
   page: 1,
   limit: 25,
-  groupedValues: [],
+  selectedRow: {
+    rowId: "",
+    groupValue: "",
+    upsertModeActive: false,
+  },
+  // groupedValues: [],
 };
 
 export const dataSlice = createSlice({
@@ -44,16 +57,31 @@ export const dataSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
+    setSelectedRow: (state, action: PayloadAction<Partial<SelectedRow>>) => {
+      state.selectedRow = { ...state.selectedRow, ...action.payload };
+    },
   },
 });
 
-export const { setRows, setSearchQuery, setLimit, setPage } = dataSlice.actions;
+export const { setRows, setSearchQuery, setLimit, setPage, setSelectedRow } =
+  dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
 export const getSearchQuery = (state: RootState) => state.data.searchQuery;
 export const getPage = (state: RootState) => state.data.page;
 export const getLimit = (state: RootState) => state.data.limit;
-const getGroupedValues = (state: RootState) => state.data.groupedValues;
+const getSelectedRow = (state: RootState) => state.data.selectedRow;
+// const getGroupedValues = (state: RootState) => state.data.groupedValues;
+
+export const selectSelectedRow = createSelector(
+  [getSelectedRow],
+  (selectedRow) => selectedRow,
+  {
+    memoizeOptions: {
+      equalityCheck: isEqual,
+    },
+  }
+);
 
 const selectFilteredRows = createSelector(
   [getRows, getSearchQuery],
