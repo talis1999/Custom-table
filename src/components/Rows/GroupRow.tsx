@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Typography, Box } from "@mui/material";
+import { Paper, Typography, Box, Divider } from "@mui/material";
 import ListIcon from "@mui/icons-material/ListAltOutlined";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -27,7 +27,7 @@ const GroupRow: React.FC = () => {
       sx={{
         display: "flex",
         justifyContent: "flex-start",
-        px: 5,
+        pl: 5,
         py: 3,
         my: "2px",
         alignItems: "center",
@@ -48,18 +48,14 @@ const GroupRow: React.FC = () => {
           {`${"Name"}: ${"Alex"}`}
         </Typography>
       </Box>
+      <Divider sx={{ my: -3 }} orientation="vertical" flexItem />
       <Box
         sx={{
           display: "flex",
-          border: "solid 2px #e6e9ea",
-          borderTop: "hidden",
-          borderBottom: "hidden",
           py: 1.5,
           px: 1,
-          mx: 4,
-          borderRadius: "8px",
           fontWeight: "bold",
-          width: "80px",
+          width: "150px",
           justifyContent: "center",
           boxSizing: "border-box",
         }}
