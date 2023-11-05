@@ -8,7 +8,11 @@ import { rowIncludes, paginateRows } from "./utils";
 
 export interface Row {
   id: string;
-  [columnId: string]: any;
+  [columnId: string]: string | number | boolean;
+}
+
+export interface GroupedValues {
+  [value: string]: number;
 }
 
 export interface SelectedRow {
@@ -23,7 +27,7 @@ interface DataState {
   page: number;
   limit: number;
   selectedRow: SelectedRow;
-  // groupedValues: string[] | number[] | boolean[];
+  groupedValues: GroupedValues;
 }
 
 const initialState: DataState = {
@@ -36,7 +40,7 @@ const initialState: DataState = {
     groupValue: "",
     upsertModeActive: false,
   },
-  // groupedValues: [],
+  groupedValues: {},
 };
 
 export const dataSlice = createSlice({
@@ -60,18 +64,34 @@ export const dataSlice = createSlice({
     setSelectedRow: (state, action: PayloadAction<Partial<SelectedRow>>) => {
       state.selectedRow = { ...state.selectedRow, ...action.payload };
     },
+    addGroupValue: (state) => {
+      state.groupedValues[state.selectedRow.groupValue] = 0;
+    },
+    removeGroupValue: (state, action: PayloadAction<string>) => {
+      const newGroupedValues: GroupedValues = { ...state.groupedValues };
+      delete newGroupedValues[action.payload];
+
+      state.groupedValues = newGroupedValues;
+    },
   },
 });
 
-export const { setRows, setSearchQuery, setLimit, setPage, setSelectedRow } =
-  dataSlice.actions;
+export const {
+  setRows,
+  setSearchQuery,
+  setLimit,
+  setPage,
+  setSelectedRow,
+  addGroupValue,
+  removeGroupValue,
+} = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
 export const getSearchQuery = (state: RootState) => state.data.searchQuery;
 export const getPage = (state: RootState) => state.data.page;
 export const getLimit = (state: RootState) => state.data.limit;
 const getSelectedRow = (state: RootState) => state.data.selectedRow;
-// const getGroupedValues = (state: RootState) => state.data.groupedValues;
+const getGroupedValues = (state: RootState) => state.data.groupedValues;
 
 export const selectSelectedRow = createSelector(
   [getSelectedRow],
