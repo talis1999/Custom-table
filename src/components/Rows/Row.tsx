@@ -1,9 +1,14 @@
 import React from "react";
 import { Paper } from "@mui/material";
 
-import { useAppSelector } from "../../app/hooks";
-import { Row as RowType } from "../../features/data/data";
-import { selectFilteredColumns } from "../../features/columns/columns";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  Row as RowType,
+  SelectedRow,
+  selectSelectedRow,
+  setSelectedRow,
+} from "../../features/data/data";
+import { Column, selectFilteredColumns } from "../../features/columns/columns";
 import { COLUMNS_PADDING_X } from "../../features/columns/constants";
 import Cell from "./Cell";
 
@@ -12,10 +17,15 @@ interface RowProps {
 }
 
 const Row: React.FC<RowProps> = ({ row }) => {
-  const columns = useAppSelector(selectFilteredColumns);
+  const dispatch = useAppDispatch();
+  const columns: Column[] = useAppSelector(selectFilteredColumns);
+  const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     console.log("ROW_ID- ", row.id);
+    dispatch(
+      setSelectedRow({ rowId: row.id, groupValue: "", upsertModeActive: false })
+    );
   };
 
   return (
@@ -29,7 +39,7 @@ const Row: React.FC<RowProps> = ({ row }) => {
         py: 2.5,
         my: "2px",
         alignItems: "center",
-        backgroundColor: "#768698",
+        backgroundColor: selectedRow.rowId === row.id ? "#8a9db1" : "#768698",
         borderWidth: 0,
         transition: "background-color 0.3s ease",
         ":hover": { bgcolor: "#8a9db1", cursor: "pointer" },
