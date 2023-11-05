@@ -37,20 +37,23 @@ const MenuButton: React.FC<MenuButtonProps> = ({
       );
     }
   };
+
   return (
     <Tooltip title={buttonType}>
-      <IconButton
-        aria-label={buttonType}
-        onClick={handleClick}
-        disabled={!isEnabled}
-        sx={{
-          ":hover": {
-            color: buttonType === RowMenu.Cancel ? red[300] : blue[200],
-          },
-        }}
-      >
-        <MenuIcon iconType={buttonType} />
-      </IconButton>
+      <span>
+        <IconButton
+          aria-label={buttonType}
+          onClick={handleClick}
+          disabled={!isEnabled}
+          sx={{
+            ":hover": {
+              color: buttonType === RowMenu.Cancel ? red[300] : blue[200],
+            },
+          }}
+        >
+          <MenuIcon iconType={buttonType} />
+        </IconButton>
+      </span>
     </Tooltip>
   );
 };
