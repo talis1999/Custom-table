@@ -7,6 +7,7 @@ import { shouldResetSortByColumn, generateDefaultSortByColumn } from "./utils";
 import {
   COLUMNS_PADDING_X,
   COLUMN_DEFAULT_WIDTH,
+  Order,
   INITIAL_SORT_BY_COLUMN,
 } from "./constants";
 
@@ -23,11 +24,6 @@ interface ColumnsState {
   columns: Column[];
   selectedColumns: string[];
   sortByColumn: SortByColumn;
-}
-
-export enum Order {
-  Ascending = "asc",
-  Descending = "desc",
 }
 
 export interface SortByColumn {

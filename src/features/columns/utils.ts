@@ -1,6 +1,7 @@
 import get from "lodash/get";
 
-import { Column, SortByColumn, Order } from "./columns";
+import { Column, SortByColumn } from "./columns";
+import { Order } from "./constants";
 
 export const shouldResetSortByColumn = (
   newColumnIds: string[],

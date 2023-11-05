@@ -7,11 +7,11 @@ import {
   SortByColumn,
   selectFilteredColumns,
   selectSortByColumn,
-  Order,
   setSortByColumn as setCurrentSortByColumn,
 } from "../../features/columns/columns";
 import {
   COLUMNS_PADDING_X,
+  Order,
   INITIAL_SORT_BY_COLUMN,
 } from "../../features/columns/constants";
 

@@ -1,4 +1,4 @@
-import { SortByColumn, Order } from "./columns";
+import { SortByColumn } from "./columns";
 
 export const COLUMN_DEFAULT_WIDTH: number = 150;
 
@@ -9,6 +9,11 @@ export enum ColumnTypes {
   Number = "number",
   Boolian = "boolian",
   Options = "options",
+}
+
+export enum Order {
+  Ascending = "asc",
+  Descending = "desc",
 }
 
 export const INITIAL_SORT_BY_COLUMN: SortByColumn = {
