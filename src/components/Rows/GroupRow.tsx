@@ -1,16 +1,14 @@
 import React from "react";
-import { Paper, Typography } from "@mui/material";
+import { Paper, Typography, Box } from "@mui/material";
 import ListIcon from "@mui/icons-material/ListAltOutlined";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  Row,
   SelectedRow,
   selectSelectedRow,
   setSelectedRow,
 } from "../../features/data/data";
 import { Column, selectFilteredColumns } from "../../features/columns/columns";
-import { COLUMNS_PADDING_X } from "../../features/columns/constants";
 
 const GroupRow: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -35,17 +33,39 @@ const GroupRow: React.FC = () => {
         alignItems: "center",
         //backgroundColor: selectedRow.rowId === row.id ? "#8a9db1" : "#768698",
         borderWidth: 0,
-        gap: 1.5,
         transition: "background-color 0.3s ease",
         ":hover": { bgcolor: "#778ba2", cursor: "pointer" },
         backgroundColor: "#66788c",
       }}
       onClick={handleClick}
     >
-      <ListIcon fontSize="large" />
-      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-        Group row
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", flex: 1, gap: 1.5 }}>
+        <ListIcon fontSize="large" />
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", position: "relative", top: "1px" }}
+        >
+          {`${"Name"}: ${"Alex"}`}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          border: "solid 2px #e6e9ea",
+          borderTop: "hidden",
+          borderBottom: "hidden",
+          py: 1.5,
+          px: 1,
+          mx: 4,
+          borderRadius: "8px",
+          fontWeight: "bold",
+          width: "80px",
+          justifyContent: "center",
+          boxSizing: "border-box",
+        }}
+      >
+        {18}
+      </Box>
     </Paper>
   );
 };
