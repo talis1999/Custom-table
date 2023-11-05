@@ -4,6 +4,8 @@ import { blue, red } from "@mui/material/colors";
 
 import MenuIcon from "./MenuIcon";
 
+import { useAppDispatch } from "../../app/hooks";
+import { setSelectedRow } from "../../features/data/data";
 import { RowMenu } from "../../features/data/constants";
 
 interface MenuButtonProps {
@@ -15,6 +17,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
   buttonType,
   isEnabled = false,
 }) => {
+  const dispatch = useAppDispatch();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (buttonType === RowMenu.Group) {
     }
@@ -29,6 +32,9 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     if (buttonType === RowMenu.Save) {
     }
     if (buttonType === RowMenu.Cancel) {
+      dispatch(
+        setSelectedRow({ rowId: "", groupValue: "", upsertModeActive: false })
+      );
     }
   };
   return (
