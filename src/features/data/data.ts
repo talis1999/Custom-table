@@ -5,7 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
-import { rowIncludes, paginateRows } from "./utils";
+import { rowIncludes, paginateRows, groupRows } from "./utils";
 
 export interface Row {
   id: string;
@@ -13,10 +13,12 @@ export interface Row {
 }
 
 export interface GroupRow {
-  columnId: string | number | boolean;
+  [columnId: string]: string | number | boolean;
   columnTitle: string;
   rowsCount: number;
 }
+
+export type UnionRow = Row | GroupRow;
 
 export interface GroupedValues {
   [value: string]: number;
@@ -129,10 +131,16 @@ const selectFilteredRows = createSelector(
 );
 
 const selectGroupedRows = createSelector(
-  [selectFilteredRows, selectGroupedValues],
-  (rows, groupedValues) => {
-    if (isEmpty(groupedValues)) return rows;
-    return rows; // create a util
+  [selectFilteredRows, selectGroupedValues, selectSortByColumn],
+  (rows, groupedValues, sortByColumn) => {
+    if (
+      isEmpty(rows) ||
+      isEmpty(groupedValues) ||
+      !Boolean(sortByColumn.columnId) ||
+      !Boolean(sortByColumn.columnTitle)
+    )
+      return rows;
+    return groupRows(rows, groupedValues, sortByColumn);
   }
 );
 
