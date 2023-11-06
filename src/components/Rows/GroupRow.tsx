@@ -27,6 +27,7 @@ const GroupRow: React.FC<GroupRowProps> = ({ row }) => {
       })
     );
   };
+
   return (
     <Paper
       variant="outlined"
