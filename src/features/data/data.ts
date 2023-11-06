@@ -77,9 +77,9 @@ export const dataSlice = createSlice({
     addGroupValue: (state) => {
       state.groupedValues[state.selectedRow.groupValue] = 0;
     },
-    removeGroupValue: (state, action: PayloadAction<string>) => {
+    removeGroupValue: (state) => {
       const newGroupedValues: GroupedValues = { ...state.groupedValues };
-      delete newGroupedValues[action.payload];
+      delete newGroupedValues[state.selectedRow.groupValue];
 
       state.groupedValues = newGroupedValues;
     },
