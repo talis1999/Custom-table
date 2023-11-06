@@ -6,7 +6,7 @@ import MenuIcon from "./MenuIcon";
 
 import { useAppDispatch } from "../../app/hooks";
 import {
-  setSelectedRow,
+  unsetSelectedRow,
   addGroupValue,
   removeGroupValue,
 } from "../../features/data/data";
@@ -40,9 +40,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     if (buttonType === RowMenu.Save) {
     }
     if (buttonType === RowMenu.Cancel) {
-      dispatch(
-        setSelectedRow({ rowId: "", groupValue: "", upsertModeActive: false })
-      );
+      dispatch(unsetSelectedRow());
     }
   };
 

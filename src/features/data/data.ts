@@ -74,6 +74,13 @@ export const dataSlice = createSlice({
     setSelectedRow: (state, action: PayloadAction<SelectedRow>) => {
       state.selectedRow = { ...action.payload };
     },
+    unsetSelectedRow: (state) => {
+      state.selectedRow = {
+        rowId: "",
+        groupValue: "",
+        upsertModeActive: false,
+      };
+    },
     addGroupValue: (state, action: PayloadAction<string>) => {
       const selectedRow: Row | undefined = state.rows.find(
         (row) => row.id === state.selectedRow.rowId
@@ -103,6 +110,7 @@ export const {
   setLimit,
   setPage,
   setSelectedRow,
+  unsetSelectedRow,
   addGroupValue,
   removeGroupValue,
 } = dataSlice.actions;
