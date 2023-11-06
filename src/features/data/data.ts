@@ -71,11 +71,19 @@ export const dataSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
-    setSelectedRow: (state, action: PayloadAction<Partial<SelectedRow>>) => {
-      state.selectedRow = { ...state.selectedRow, ...action.payload };
+    setSelectedRow: (state, action: PayloadAction<SelectedRow>) => {
+      state.selectedRow = { ...action.payload };
     },
-    addGroupValue: (state) => {
-      state.groupedValues[state.selectedRow.groupValue] = 0;
+    addGroupValue: (state, action: PayloadAction<string>) => {
+      const selectedRow: Row | undefined = state.rows.find(
+        (row) => row.id === state.selectedRow.rowId
+      );
+
+      const groupedValue: string | number | boolean | undefined =
+        selectedRow?.[action.payload];
+
+      if (groupedValue !== undefined)
+        state.groupedValues[groupedValue.toString()] = 0;
     },
     removeGroupValue: (state) => {
       const newGroupedValues: GroupedValues = { ...state.groupedValues };

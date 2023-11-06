@@ -4,14 +4,20 @@ import MenuButton from "./MenuButton";
 
 import { useAppSelector } from "../../app/hooks";
 import { SelectedRow, selectSelectedRow } from "../../features/data/data";
+import {
+  SortByColumn,
+  selectSortByColumn,
+} from "../../features/columns/columns";
 import { isRowMenuButtonEnabled } from "../../features/data/utils";
 import {
   LEFT_MENU_BUTTONS,
   RIGHT_MENU_BUTTONS,
+  RowMenu,
 } from "../../features/data/constants";
 
 const SelectedRowMenu: React.FC = () => {
   const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
+  const sortByColumn: SortByColumn = useAppSelector(selectSortByColumn);
 
   return (
     <Box
@@ -24,13 +30,22 @@ const SelectedRowMenu: React.FC = () => {
         gap: 0.5,
       }}
     >
-      {LEFT_MENU_BUTTONS.map((menuButton) => (
-        <MenuButton
-          key={`menu-button-${menuButton}`}
-          buttonType={menuButton}
-          isEnabled={isRowMenuButtonEnabled(selectedRow, menuButton)}
-        />
-      ))}
+      {LEFT_MENU_BUTTONS.map((menuButton) =>
+        menuButton === RowMenu.Group ? (
+          <MenuButton
+            key={`menu-button-${menuButton}`}
+            buttonType={menuButton}
+            isEnabled={isRowMenuButtonEnabled(selectedRow, menuButton)}
+            columnId={sortByColumn.columnId}
+          />
+        ) : (
+          <MenuButton
+            key={`menu-button-${menuButton}`}
+            buttonType={menuButton}
+            isEnabled={isRowMenuButtonEnabled(selectedRow, menuButton)}
+          />
+        )
+      )}
       <Divider sx={{ my: "-1px" }} orientation="vertical" flexItem />
       {RIGHT_MENU_BUTTONS.map((menuButton) => (
         <MenuButton

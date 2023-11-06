@@ -15,16 +15,18 @@ import { RowMenu } from "../../features/data/constants";
 interface MenuButtonProps {
   buttonType: RowMenu;
   isEnabled: boolean;
+  columnId?: string;
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({
   buttonType,
   isEnabled = false,
+  columnId = "",
 }) => {
   const dispatch = useAppDispatch();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (buttonType === RowMenu.Group) {
-      dispatch(addGroupValue());
+    if (buttonType === RowMenu.Group && Boolean(columnId)) {
+      dispatch(addGroupValue(columnId));
     }
     if (buttonType === RowMenu.Ungroup) {
       dispatch(removeGroupValue());
