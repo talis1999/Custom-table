@@ -2,6 +2,7 @@ import get from "lodash/get";
 import { GroupRow, GroupedValues, Row, SelectedRow, UnionRow } from "./data";
 import { SortByColumn } from "../columns/columns";
 import { RowMenu } from "./constants";
+import { group } from "console";
 
 interface PaginateRowsArgs {
   rows: UnionRow[];
@@ -78,13 +79,15 @@ export const groupRows = (
     tempGroupedValues[rowValue] += 1;
     return false;
   });
-  // step 3 - generate grouped rows array
-  const groupedRows: GroupRow[] = Object.keys(tempGroupedValues).map((key) => ({
-    [sortByColumn.columnId]: stringToSelectedType(key, sortByColumnValueType),
-    columnTitle: sortByColumn.columnTitle,
-    value: key,
-    rowsCount: tempGroupedValues[key],
-  }));
+  // step 3 - generate grouped rows array and return only those with rowsCount > 0
+  const groupedRows: GroupRow[] = Object.keys(tempGroupedValues)
+    .map((key) => ({
+      [sortByColumn.columnId]: stringToSelectedType(key, sortByColumnValueType),
+      columnTitle: sortByColumn.columnTitle,
+      value: key,
+      rowsCount: tempGroupedValues[key],
+    }))
+    .filter((row) => row.rowsCount > 0);
   // step 4 - return both (will be sorted later)
   return [...filteredRows, ...groupedRows];
 };
