@@ -81,6 +81,7 @@ export const groupRows = (
   const groupedRows: GroupRow[] = Object.keys(tempGroupedValues).map((key) => ({
     [sortByColumn.columnId]: stringToSelectedType(key, sortByColumnValueType),
     columnTitle: sortByColumn.columnTitle,
+    value: key,
     rowsCount: tempGroupedValues[key],
   }));
   // step 4 - return both (will be sorted later)

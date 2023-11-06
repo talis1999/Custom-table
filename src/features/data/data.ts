@@ -15,6 +15,7 @@ export interface Row {
 export interface GroupRow {
   [columnId: string]: string | number | boolean;
   columnTitle: string;
+  value: string;
   rowsCount: number;
 }
 

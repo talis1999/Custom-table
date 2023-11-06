@@ -4,20 +4,27 @@ import ListIcon from "@mui/icons-material/ListAltOutlined";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  GroupRow as GroupRowType,
   SelectedRow,
   selectSelectedRow,
   setSelectedRow,
 } from "../../features/data/data";
-import { Column, selectFilteredColumns } from "../../features/columns/columns";
 
-const GroupRow: React.FC = () => {
+interface GroupRowProps {
+  row: GroupRowType;
+}
+
+const GroupRow: React.FC<GroupRowProps> = ({ row }) => {
   const dispatch = useAppDispatch();
-  const columns: Column[] = useAppSelector(selectFilteredColumns);
   const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     dispatch(
-      setSelectedRow({ rowId: "", groupValue: "", upsertModeActive: false })
+      setSelectedRow({
+        rowId: "",
+        groupValue: row.value,
+        upsertModeActive: false,
+      })
     );
   };
   return (
@@ -31,11 +38,11 @@ const GroupRow: React.FC = () => {
         py: 3,
         my: "2px",
         alignItems: "center",
-        //backgroundColor: selectedRow.rowId === row.id ? "#8a9db1" : "#768698",
+        backgroundColor:
+          selectedRow.groupValue === row.value ? "#778ba2" : "#66788c",
         borderWidth: 0,
         transition: "background-color 0.3s ease",
         ":hover": { bgcolor: "#778ba2", cursor: "pointer" },
-        backgroundColor: "#66788c",
       }}
       onClick={handleClick}
     >
@@ -45,7 +52,7 @@ const GroupRow: React.FC = () => {
           variant="h6"
           sx={{ fontWeight: "bold", position: "relative", top: "1px" }}
         >
-          {`${"Name"}: ${"Alex"}`}
+          {`${row.columnTitle}: ${row.value}`}
         </Typography>
       </Box>
       <Divider sx={{ my: -3 }} orientation="vertical" flexItem />
@@ -60,7 +67,7 @@ const GroupRow: React.FC = () => {
           boxSizing: "border-box",
         }}
       >
-        {18}
+        {row.rowsCount}
       </Box>
     </Paper>
   );
