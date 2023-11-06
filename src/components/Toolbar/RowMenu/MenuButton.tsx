@@ -4,24 +4,32 @@ import { blue, red } from "@mui/material/colors";
 
 import MenuIcon from "./MenuIcon";
 
-import { useAppDispatch } from "../../app/hooks";
-import { setSelectedRow } from "../../features/data/data";
-import { RowMenu } from "../../features/data/constants";
+import { useAppDispatch } from "../../../app/hooks";
+import {
+  unsetSelectedRow,
+  addGroupValue,
+  removeGroupValue,
+} from "../../../features/data/data";
+import { RowMenu } from "../../../features/data/constants";
 
 interface MenuButtonProps {
   buttonType: RowMenu;
   isEnabled: boolean;
+  columnId?: string;
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({
   buttonType,
   isEnabled = false,
+  columnId = "",
 }) => {
   const dispatch = useAppDispatch();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (buttonType === RowMenu.Group) {
+    if (buttonType === RowMenu.Group && Boolean(columnId)) {
+      dispatch(addGroupValue(columnId));
     }
-    if (buttonType === RowMenu.Ungroup) {
+    if (buttonType === RowMenu.Ungroup && Boolean(columnId)) {
+      dispatch(removeGroupValue(columnId));
     }
     if (buttonType === RowMenu.Add) {
     }
@@ -32,9 +40,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     if (buttonType === RowMenu.Save) {
     }
     if (buttonType === RowMenu.Cancel) {
-      dispatch(
-        setSelectedRow({ rowId: "", groupValue: "", upsertModeActive: false })
-      );
+      dispatch(unsetSelectedRow());
     }
   };
 

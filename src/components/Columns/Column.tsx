@@ -10,7 +10,7 @@ interface ColumnProps {
   title: string;
   isSelected: boolean;
   isAscending: boolean;
-  changeSortByColumn: (columnId: string) => void;
+  changeSortByColumn: (columnId: string, columnTitle: string) => void;
   width?: number;
 }
 
@@ -23,7 +23,7 @@ const Column: React.FC<ColumnProps> = ({
   width = COLUMN_DEFAULT_WIDTH,
 }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    changeSortByColumn(columnId);
+    changeSortByColumn(columnId, title);
   };
 
   console.log("!-- COLUMN RENDER --!");

@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import SaveIcon from "@mui/icons-material/SaveOutlined";
 import CancelIcon from "@mui/icons-material/CancelOutlined";
 
-import { RowMenu } from "../../features/data/constants";
+import { RowMenu } from "../../../features/data/constants";
 
 interface MenuIconProps {
   iconType: RowMenu;

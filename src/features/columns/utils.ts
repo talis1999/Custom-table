@@ -1,21 +1,28 @@
 import get from "lodash/get";
 
-import { Column, SortByColumn, Order } from "./columns";
+import { Column, SortByColumn } from "./columns";
+import { Order } from "./constants";
+
+export const getSelectedColumnsCounter = (
+  selectedColumnsLength: number = 0
+): string => {
+  return selectedColumnsLength === 1
+    ? `${selectedColumnsLength} column selected`
+    : `${selectedColumnsLength} columns selected`;
+};
 
 export const shouldResetSortByColumn = (
   newColumnIds: string[],
   currentSortByColumn: SortByColumn
-): Boolean => {
-  return (
-    Boolean(currentSortByColumn.columnId) &&
-    !newColumnIds.includes(currentSortByColumn.columnId)
-  );
-};
+): Boolean =>
+  Boolean(currentSortByColumn.columnId) &&
+  !newColumnIds.includes(currentSortByColumn.columnId);
 
 export const generateDefaultSortByColumn = (
   columns: Column[]
 ): SortByColumn => ({
   columnId: get(columns, "[0].id", ""),
+  columnTitle: get(columns, "[0].title", ""),
   order: Order.Ascending,
 });
 
@@ -34,7 +41,8 @@ export const stringToSortByColumn = (value: string = ""): SortByColumn => {
   const splitValue: string[] = value.split(", ");
   return {
     columnId: get(splitValue, "[0]", ""),
-    order: stringToOrderEnum(get(splitValue, "[1]", "")),
+    columnTitle: get(splitValue, "[1]", ""),
+    order: stringToOrderEnum(get(splitValue, "[2]", "")),
   };
 };
 
