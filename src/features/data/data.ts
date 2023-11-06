@@ -82,14 +82,17 @@ export const dataSlice = createSlice({
       const groupedValue: string | number | boolean | undefined =
         selectedRow?.[action.payload];
 
-      if (groupedValue !== undefined)
+      if (groupedValue !== undefined) {
         state.groupedValues[groupedValue.toString()] = 0;
+        state.selectedRow.rowId = "";
+      }
     },
     removeGroupValue: (state) => {
       const newGroupedValues: GroupedValues = { ...state.groupedValues };
       delete newGroupedValues[state.selectedRow.groupValue];
 
       state.groupedValues = newGroupedValues;
+      state.selectedRow.groupValue = "";
     },
   },
 });
