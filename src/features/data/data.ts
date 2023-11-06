@@ -110,6 +110,12 @@ export const dataSlice = createSlice({
       state.groupedValues = newGroupedValues;
       state.selectedRow.groupValue = "";
     },
+    deleteSelectedRow: (state) => {
+      state.rows = state.rows.filter(
+        (row) => row.id !== state.selectedRow.rowId
+      );
+      state.selectedRow.rowId = "";
+    },
   },
 });
 
@@ -122,6 +128,7 @@ export const {
   unsetSelectedRow,
   addGroupValue,
   removeGroupValue,
+  deleteSelectedRow,
 } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
