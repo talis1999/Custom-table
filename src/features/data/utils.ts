@@ -55,7 +55,8 @@ const stringToSelectedType = (
 ): string | number | boolean => {
   if (selectedType === "string") return value;
   if (selectedType === "number") return Number(value);
-  if (selectedType === "boolean") return JSON.parse(value);
+  if (selectedType === "boolean")
+    return value === "true" || value === "false" ? JSON.parse(value) : value;
   return value;
 };
 
