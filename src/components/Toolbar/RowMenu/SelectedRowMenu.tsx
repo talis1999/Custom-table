@@ -2,18 +2,18 @@ import React from "react";
 import { Box, Divider } from "@mui/material";
 import MenuButton from "./MenuButton";
 
-import { useAppSelector } from "../../app/hooks";
-import { SelectedRow, selectSelectedRow } from "../../features/data/data";
+import { useAppSelector } from "../../../app/hooks";
+import { SelectedRow, selectSelectedRow } from "../../../features/data/data";
 import {
   SortByColumn,
   selectSortByColumn,
-} from "../../features/columns/columns";
-import { isRowMenuButtonEnabled } from "../../features/data/utils";
+} from "../../../features/columns/columns";
+import { isRowMenuButtonEnabled } from "../../../features/data/utils";
 import {
   LEFT_MENU_BUTTONS,
   RIGHT_MENU_BUTTONS,
   RowMenu,
-} from "../../features/data/constants";
+} from "../../../features/data/constants";
 
 const SelectedRowMenu: React.FC = () => {
   const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);

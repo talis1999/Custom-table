@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 
 import SearchField from "./SearchField";
 import ColumnsSelect from "./ColumnsSelect";
-import SelectedRowMenu from "./SelectedRowMenu";
+import SelectedRowMenu from "./RowMenu/SelectedRowMenu";
 
 const TableToolbar: React.FC = () => {
   return (

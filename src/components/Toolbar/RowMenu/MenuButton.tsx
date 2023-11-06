@@ -4,13 +4,13 @@ import { blue, red } from "@mui/material/colors";
 
 import MenuIcon from "./MenuIcon";
 
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch } from "../../../app/hooks";
 import {
   unsetSelectedRow,
   addGroupValue,
   removeGroupValue,
-} from "../../features/data/data";
-import { RowMenu } from "../../features/data/constants";
+} from "../../../features/data/data";
+import { RowMenu } from "../../../features/data/constants";
 
 interface MenuButtonProps {
   buttonType: RowMenu;
