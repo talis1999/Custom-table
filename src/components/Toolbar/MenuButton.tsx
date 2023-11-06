@@ -28,8 +28,8 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     if (buttonType === RowMenu.Group && Boolean(columnId)) {
       dispatch(addGroupValue(columnId));
     }
-    if (buttonType === RowMenu.Ungroup) {
-      dispatch(removeGroupValue());
+    if (buttonType === RowMenu.Ungroup && Boolean(columnId)) {
+      dispatch(removeGroupValue(columnId));
     }
     if (buttonType === RowMenu.Add) {
     }

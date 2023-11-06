@@ -6,12 +6,9 @@ import { Order } from "./constants";
 export const shouldResetSortByColumn = (
   newColumnIds: string[],
   currentSortByColumn: SortByColumn
-): Boolean => {
-  return (
-    Boolean(currentSortByColumn.columnId) &&
-    !newColumnIds.includes(currentSortByColumn.columnId)
-  );
-};
+): Boolean =>
+  Boolean(currentSortByColumn.columnId) &&
+  !newColumnIds.includes(currentSortByColumn.columnId);
 
 export const generateDefaultSortByColumn = (
   columns: Column[]

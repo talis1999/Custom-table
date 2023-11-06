@@ -12,10 +12,14 @@ import sortBy from "lodash/sortBy";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   Column,
+  SortByColumn,
   selectColumns,
   selectSelectedColumns,
+  selectSortByColumn,
   setSelectedColumns,
 } from "../../features/columns/columns";
+import { setSelectedRow } from "../../features/data/data";
+import { shouldResetSortByColumn } from "../../features/columns/utils";
 import useDebounce from "../../hooks/useDebounce";
 import getSelectedColumnsCounter from "../../utils/getSelectedColumnsCounter";
 
@@ -37,6 +41,7 @@ const ColumnsSelect: React.FC = () => {
   const currentSelectedColumns: string[] = useAppSelector(
     selectSelectedColumns
   );
+  const currentSortByColumn: SortByColumn = useAppSelector(selectSortByColumn);
 
   const [columnIds, setColumnIds] = useState<string[]>([]);
   const stringifiedColumnIds: string = columnIds.join(", ");
@@ -56,8 +61,11 @@ const ColumnsSelect: React.FC = () => {
   }, [currentSelectedColumns]);
 
   useEffect(() => {
-    if (Boolean(debouncedColumnIds.length))
+    if (Boolean(debouncedColumnIds.length)) {
+      if (shouldResetSortByColumn(debouncedColumnIds, currentSortByColumn))
+        dispatch(setSelectedRow({ groupValue: "" }));
       dispatch(setSelectedColumns(debouncedColumnIds));
+    }
   }, [debouncedStringifiedColumnIds]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {

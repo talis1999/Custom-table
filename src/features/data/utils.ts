@@ -2,7 +2,6 @@ import get from "lodash/get";
 import { GroupRow, GroupedValues, Row, SelectedRow, UnionRow } from "./data";
 import { SortByColumn } from "../columns/columns";
 import { RowMenu } from "./constants";
-import { group } from "console";
 
 interface PaginateRowsArgs {
   rows: UnionRow[];
@@ -66,24 +65,24 @@ export const groupRows = (
   groupedValues: GroupedValues,
   sortByColumn: SortByColumn
 ): UnionRow[] => {
+  const { columnId, columnTitle } = sortByColumn;
   // step 1 - copy groupedValues
-  const tempGroupedValues: GroupedValues = { ...groupedValues };
+  const tempGroupedValues: GroupedValues["columnId"] = {
+    ...get(groupedValues, [columnId], {}),
+  };
   // step 2 - filter rows + count groupedValues + get column type
-  const sortByColumnValueType: string = typeof get(rows, [
-    "0",
-    sortByColumn.columnId,
-  ]);
+  const sortByColumnValueType: string = typeof get(rows, ["0", columnId]);
   const filteredRows: Row[] = rows.filter((row) => {
-    const rowValue: string = row[sortByColumn.columnId].toString();
-    if (groupedValues[rowValue] === undefined) return true;
+    const rowValue: string = String(row[columnId]);
+    if (tempGroupedValues[rowValue] === undefined) return true;
     tempGroupedValues[rowValue] += 1;
     return false;
   });
   // step 3 - generate grouped rows array and return only those with rowsCount > 0
   const groupedRows: GroupRow[] = Object.keys(tempGroupedValues)
     .map((key) => ({
-      [sortByColumn.columnId]: stringToSelectedType(key, sortByColumnValueType),
-      columnTitle: sortByColumn.columnTitle,
+      [columnId]: stringToSelectedType(key, sortByColumnValueType),
+      columnTitle,
       value: key,
       rowsCount: tempGroupedValues[key],
     }))

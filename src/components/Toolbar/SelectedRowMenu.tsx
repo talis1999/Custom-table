@@ -31,7 +31,7 @@ const SelectedRowMenu: React.FC = () => {
       }}
     >
       {LEFT_MENU_BUTTONS.map((menuButton) =>
-        menuButton === RowMenu.Group ? (
+        menuButton === RowMenu.Group || menuButton === RowMenu.Ungroup ? (
           <MenuButton
             key={`menu-button-${menuButton}`}
             buttonType={menuButton}

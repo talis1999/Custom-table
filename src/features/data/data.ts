@@ -2,6 +2,10 @@ import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import orderBy from "lodash/orderBy";
 import isEqual from "lodash/isEqual";
 import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
+import set from "lodash/set";
+import unset from "lodash/unset";
+import cloneDeep from "lodash/cloneDeep";
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
@@ -13,7 +17,7 @@ export interface Row {
 }
 
 export interface GroupRow {
-  [columnId: string]: string | number | boolean;
+  [columnId: string]: string | number | boolean; // only used for sorting purposes
   columnTitle: string;
   value: string;
   rowsCount: number;
@@ -22,7 +26,7 @@ export interface GroupRow {
 export type UnionRow = Row | GroupRow;
 
 export interface GroupedValues {
-  [value: string]: number;
+  [columnId: string]: { [value: string]: number };
 }
 
 export interface SelectedRow {
@@ -71,8 +75,8 @@ export const dataSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
-    setSelectedRow: (state, action: PayloadAction<SelectedRow>) => {
-      state.selectedRow = { ...action.payload };
+    setSelectedRow: (state, action: PayloadAction<Partial<SelectedRow>>) => {
+      state.selectedRow = { ...state.selectedRow, ...action.payload };
     },
     unsetSelectedRow: (state) => {
       state.selectedRow = {
@@ -82,21 +86,26 @@ export const dataSlice = createSlice({
       };
     },
     addGroupValue: (state, action: PayloadAction<string>) => {
+      const columnId: string = action.payload;
       const selectedRow: Row | undefined = state.rows.find(
         (row) => row.id === state.selectedRow.rowId
       );
 
-      const groupedValue: string | number | boolean | undefined =
-        selectedRow?.[action.payload];
+      const groupedValue: string | number | boolean | undefined = get(
+        selectedRow,
+        [columnId]
+      );
 
       if (groupedValue !== undefined) {
-        state.groupedValues[groupedValue.toString()] = 0;
+        set(state.groupedValues, [columnId, String(groupedValue)], 0);
         state.selectedRow.rowId = "";
       }
     },
-    removeGroupValue: (state) => {
-      const newGroupedValues: GroupedValues = { ...state.groupedValues };
-      delete newGroupedValues[state.selectedRow.groupValue];
+    removeGroupValue: (state, action: PayloadAction<string>) => {
+      const columnId: string = action.payload;
+
+      const newGroupedValues: GroupedValues = cloneDeep(state.groupedValues);
+      unset(newGroupedValues, [columnId, state.selectedRow.groupValue]);
 
       state.groupedValues = newGroupedValues;
       state.selectedRow.groupValue = "";
