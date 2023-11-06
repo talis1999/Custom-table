@@ -97,6 +97,7 @@ export const dataSlice = createSlice({
       );
 
       if (groupedValue !== undefined) {
+        state.page = 1;
         set(state.groupedValues, [columnId, String(groupedValue)], 0);
         state.selectedRow.rowId = "";
       }
@@ -107,6 +108,7 @@ export const dataSlice = createSlice({
       const newGroupedValues: GroupedValues = cloneDeep(state.groupedValues);
       unset(newGroupedValues, [columnId, state.selectedRow.groupValue]);
 
+      state.page = 1;
       state.groupedValues = newGroupedValues;
       state.selectedRow.groupValue = "";
     },
