@@ -145,7 +145,7 @@ const selectGroupedRows = createSelector(
 );
 
 const selectSortedRows = createSelector(
-  [selectFilteredRows, selectSortByColumn],
+  [selectGroupedRows, selectSortByColumn],
   (rows, sortByColumn) =>
     orderBy(rows, sortByColumn.columnId, sortByColumn.order)
 );

@@ -6,6 +6,7 @@ import { selectPaginatedRows } from "../../features/data/data";
 
 import Row from "./Row";
 import GroupRow from "./GroupRow";
+import { Row as RowType } from "../../features/data/data";
 
 const Rows: React.FC = () => {
   const rows = useAppSelector(selectPaginatedRows);
@@ -21,7 +22,13 @@ const Rows: React.FC = () => {
     >
       <GroupRow />
       {Boolean(rows.length) &&
-        rows.map((row) => <Row key={`row-${row.id}`} row={row} />)}
+        rows.map((row) =>
+          Boolean(row.id) ? (
+            <Row key={`row-${row.id}`} row={row as RowType} />
+          ) : (
+            <GroupRow />
+          )
+        )}
     </Box>
   );
 };

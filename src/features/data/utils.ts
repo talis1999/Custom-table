@@ -4,7 +4,7 @@ import { SortByColumn } from "../columns/columns";
 import { RowMenu } from "./constants";
 
 interface PaginateRowsArgs {
-  rows: Row[];
+  rows: UnionRow[];
   page: number;
   limit: number;
 }
@@ -22,7 +22,7 @@ export const paginateRows = ({
   rows = [],
   page = 1,
   limit = 25,
-}: PaginateRowsArgs): Row[] => {
+}: PaginateRowsArgs): UnionRow[] => {
   return rows.slice((page - 1) * limit, page * limit);
 };
 
