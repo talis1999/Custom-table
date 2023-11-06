@@ -7,7 +7,18 @@ import SelectedRowMenu from "./RowMenu/SelectedRowMenu";
 
 const TableToolbar: React.FC = () => {
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1.5,
+        border: "solid 1px lightGray",
+        borderBottom: "hidden",
+        px: 1,
+        pt: 1.5,
+        pb: 1.75,
+      }}
+    >
       <Box sx={{ flex: 1 }}>
         <SearchField />
       </Box>

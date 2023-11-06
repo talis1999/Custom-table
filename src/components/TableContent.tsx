@@ -10,7 +10,7 @@ import Rows from "./Rows/Rows";
 const TableContent: React.FC = () => {
   const columnWidth: number = useAppSelector(selectColumnsWidth);
   return (
-    <Box sx={{ marginTop: 1, overflowX: "auto" }}>
+    <Box sx={{ overflowX: "auto" }}>
       <Box
         sx={{
           minWidth: `${columnWidth}px`,

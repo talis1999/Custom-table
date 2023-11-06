@@ -18,7 +18,7 @@ const Rows: React.FC = () => {
   return (
     <Box
       sx={{
-        height: "50vh",
+        height: "55vh",
         overflowY: "auto",
         backgroundColor: "#a5b1c2",
       }}

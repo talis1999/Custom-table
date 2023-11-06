@@ -32,7 +32,7 @@ const CustomTable: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ border: "black 1px dotted", p: 1, my: 2, height: "80%" }}>
+    <Box sx={{ border: "black 1px dotted", p: 1.5, my: 3 }}>
       <TableToolbar />
       <ThemeProvider theme={theme}>
         <TableContent />
