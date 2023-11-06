@@ -21,7 +21,7 @@ import {
 import { setSelectedRow } from "../../features/data/data";
 import { shouldResetSortByColumn } from "../../features/columns/utils";
 import useDebounce from "../../hooks/useDebounce";
-import getSelectedColumnsCounter from "../../utils/getSelectedColumnsCounter";
+import { getSelectedColumnsCounter } from "../../features/columns/utils";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

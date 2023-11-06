@@ -3,6 +3,14 @@ import get from "lodash/get";
 import { Column, SortByColumn } from "./columns";
 import { Order } from "./constants";
 
+export const getSelectedColumnsCounter = (
+  selectedColumnsLength: number = 0
+): string => {
+  return selectedColumnsLength === 1
+    ? `${selectedColumnsLength} column selected`
+    : `${selectedColumnsLength} columns selected`;
+};
+
 export const shouldResetSortByColumn = (
   newColumnIds: string[],
   currentSortByColumn: SortByColumn
