@@ -73,7 +73,7 @@ export const groupRows = (
   ]);
   const filteredRows: Row[] = rows.filter((row) => {
     const rowValue: string = row[sortByColumn.columnId].toString();
-    if (!groupedValues[rowValue]) return true;
+    if (groupedValues[rowValue] === undefined) return true;
     tempGroupedValues[rowValue] += 1;
     return false;
   });
