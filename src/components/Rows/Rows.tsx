@@ -10,6 +10,7 @@ import {
 
 import Row from "./Row";
 import GroupRow from "./GroupRow";
+import EditRow from "./EditRow";
 
 const Rows: React.FC = () => {
   const rows = useAppSelector(selectPaginatedRows);
@@ -21,8 +22,10 @@ const Rows: React.FC = () => {
         height: "55vh",
         overflowY: "auto",
         backgroundColor: "#a5b1c2",
+        position: "relative",
       }}
     >
+      {<EditRow />}
       {Boolean(rows.length) &&
         rows.map((row) =>
           Boolean(row.id) ? (
