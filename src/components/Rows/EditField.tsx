@@ -1,5 +1,15 @@
 import React from "react";
-import { Box, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  TextField,
+  Checkbox,
+  Tooltip,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 import {
   COLUMN_DEFAULT_WIDTH,
@@ -7,29 +17,76 @@ import {
 } from "../../features/columns/constants";
 
 interface EditFieldProps {
-  data?: string | boolean | number;
-  type?: string;
+  title: string;
+  type: string;
   width?: number;
+  options?: string[] | number[];
 }
 
 const EditField: React.FC<EditFieldProps> = ({
-  data,
+  title,
   type,
   width = COLUMN_DEFAULT_WIDTH,
+  options = [],
 }) => {
   return (
     <Box
       sx={{
         width: `${width}px`,
-        px: 1,
-        py: 1.5,
+        px: 2,
+        py: 1,
         position: "relative",
         display: "flex",
         justifyContent: "center",
         boxSizing: "border-box",
       }}
     >
-      {data}
+      {type === ColumnTypes.String && (
+        <TextField
+          id={`${title}-input`}
+          label={`${title}`}
+          size="small"
+          //value={searchValue}
+          //onChange={handleSearch}
+        />
+      )}
+      {type === ColumnTypes.Number && (
+        <TextField
+          id={`${title}-input`}
+          label={`${title}`}
+          size="small"
+          type="number"
+          //value={searchValue}
+          //onChange={handleSearch}
+        />
+      )}
+      {type === ColumnTypes.Boolian && (
+        <Checkbox
+          id={`${title}-input`}
+          inputProps={{ "aria-label": `${title}` }}
+          //value={searchValue}
+          //onChange={handleSearch}
+        />
+      )}
+      {type === ColumnTypes.Options && (
+        <FormControl fullWidth>
+          <InputLabel id={`${title}-select-label`} size="small">
+            {title}
+          </InputLabel>
+          <Select
+            labelId={`${title}-select-label`}
+            id={`${title}-input`}
+            label={title}
+            size="small"
+            //value={searchValue}
+            //onChange={searchValue}
+          >
+            {options.map((option) => (
+              <MenuItem value={option}>{option}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
     </Box>
   );
 };

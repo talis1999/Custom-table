@@ -35,8 +35,8 @@ const EditRow: React.FC<RowProps> = ({}) => {
         //opacity: 0.5,
       }}
     >
-      {columns.map((column) => (
-        <EditField data={column.title} width={column.width} />
+      {columns.map(({ title, type, width, options }) => (
+        <EditField title={title} type={type} width={width} options={options} />
       ))}
     </Paper>
   );

@@ -39,6 +39,7 @@ const COLUMNS: Column[] = [
     ordinalNo: 6,
     title: "Membership",
     type: "options",
+    options: ["none", "common", "premium"],
   },
   {
     id: "007",
