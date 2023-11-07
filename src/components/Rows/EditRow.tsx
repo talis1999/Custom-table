@@ -2,7 +2,7 @@ import React from "react";
 import { Paper, ThemeProvider, createTheme } from "@mui/material";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {} from "../../features/data/data";
+import { SelectedRow, selectSelectedRow } from "../../features/data/data";
 import { Column, selectFilteredColumns } from "../../features/columns/columns";
 import { COLUMNS_PADDING_X } from "../../features/columns/constants";
 import EditField from "./EditField";
@@ -20,7 +20,11 @@ const theme = createTheme({
 
 const EditRow: React.FC = () => {
   const dispatch = useAppDispatch();
+
   const columns: Column[] = useAppSelector(selectFilteredColumns);
+  const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
+
+  if (!selectedRow?.upsertModeActive) return null;
 
   return (
     <ThemeProvider theme={theme}>

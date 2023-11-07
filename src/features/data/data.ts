@@ -25,14 +25,18 @@ export interface GroupRow {
 
 export type UnionRow = Row | GroupRow;
 
-export interface GroupedValues {
-  [columnId: string]: { [value: string]: number };
-}
-
 export interface SelectedRow {
   rowId: string;
   groupValue: string;
   upsertModeActive: boolean;
+}
+
+export interface GroupedValues {
+  [columnId: string]: { [value: string]: number };
+}
+
+export interface UpsertPayload {
+  [columnId: string]: string | number | boolean;
 }
 
 interface DataState {
@@ -42,6 +46,7 @@ interface DataState {
   limit: number;
   selectedRow: SelectedRow;
   groupedValues: GroupedValues;
+  upsertPayload: UpsertPayload;
 }
 
 const initialState: DataState = {
@@ -55,6 +60,7 @@ const initialState: DataState = {
     upsertModeActive: false,
   },
   groupedValues: {},
+  upsertPayload: {},
 };
 
 export const dataSlice = createSlice({
@@ -112,6 +118,15 @@ export const dataSlice = createSlice({
       state.groupedValues = newGroupedValues;
       state.selectedRow.groupValue = "";
     },
+    setUpsertPayload: (
+      state,
+      action: PayloadAction<Partial<UpsertPayload>>
+    ) => {
+      state.upsertPayload = {
+        ...state.upsertPayload,
+        ...action.payload,
+      } as UpsertPayload;
+    },
     deleteSelectedRow: (state) => {
       state.rows = state.rows.filter(
         (row) => row.id !== state.selectedRow.rowId
@@ -131,6 +146,7 @@ export const {
   addGroupValue,
   removeGroupValue,
   deleteSelectedRow,
+  setUpsertPayload,
 } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
