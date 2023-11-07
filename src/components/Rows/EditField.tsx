@@ -4,8 +4,6 @@ import {
   FormControl,
   TextField,
   Checkbox,
-  Tooltip,
-  Typography,
   InputLabel,
   Select,
   MenuItem,
