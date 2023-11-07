@@ -3,6 +3,8 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
+import { red, green } from "@mui/material/colors";
+
 import {
   COLUMN_DEFAULT_WIDTH,
   ColumnTypes,
@@ -34,11 +36,11 @@ const Cell: React.FC<CellProps> = ({
       {type === ColumnTypes.Boolian ? (
         data ? (
           <CheckCircleIcon
-            sx={{ color: "#00b894", position: "relative", top: "1px" }}
+            sx={{ color: green[300], position: "relative", top: "1px" }}
           />
         ) : (
           <CancelIcon
-            sx={{ color: "#e17055", position: "relative", top: "1px" }}
+            sx={{ color: red[300], position: "relative", top: "1px" }}
           />
         )
       ) : (

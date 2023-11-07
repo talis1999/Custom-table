@@ -9,6 +9,8 @@ import {
   MenuItem,
 } from "@mui/material";
 
+import { red, green } from "@mui/material/colors";
+
 import {
   COLUMN_DEFAULT_WIDTH,
   ColumnTypes,
@@ -62,8 +64,14 @@ const EditField: React.FC<EditFieldProps> = ({
         <Checkbox
           id={`${title}-input`}
           inputProps={{ "aria-label": `${title}` }}
+          sx={{
+            color: red[200],
+            "&.Mui-checked": {
+              color: green[400],
+            },
+          }}
           //value={searchValue}
-          //onChange={handleSearch}
+          //onChange={handleSearch} "#00b894"
         />
       )}
       {type === ColumnTypes.Options && (

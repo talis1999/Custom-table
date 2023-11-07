@@ -31,14 +31,15 @@ const EditRow: React.FC = () => {
           display: "flex",
           justifyContent: "flex-start",
           px: COLUMNS_PADDING_X,
-          py: 2,
+          pt: 0.5,
+          pb: 0.75,
           alignItems: "center",
           borderWidth: "0px 1px",
           borderColor: "lightGray",
           position: "sticky",
           top: 0,
           zIndex: 1,
-          //opacity: 0.5,
+          // opacity: 0.8,
         }}
       >
         {columns.map(({ title, type, width, options }) => (
