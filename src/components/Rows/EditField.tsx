@@ -19,6 +19,7 @@ import {
 interface EditFieldProps {
   title: string;
   type: string;
+  value: string | number | boolean;
   width?: number;
   options?: string[] | number[];
 }
@@ -26,6 +27,7 @@ interface EditFieldProps {
 const EditField: React.FC<EditFieldProps> = ({
   title,
   type,
+  value,
   width = COLUMN_DEFAULT_WIDTH,
   options = [],
 }) => {
@@ -46,7 +48,7 @@ const EditField: React.FC<EditFieldProps> = ({
           id={`${title}-input`}
           label={`${title}`}
           size="small"
-          //value={searchValue}
+          value={value}
           //onChange={handleSearch}
         />
       )}
@@ -56,7 +58,7 @@ const EditField: React.FC<EditFieldProps> = ({
           label={`${title}`}
           size="small"
           type="number"
-          //value={searchValue}
+          value={value}
           //onChange={handleSearch}
         />
       )}
@@ -70,7 +72,7 @@ const EditField: React.FC<EditFieldProps> = ({
               color: green[400],
             },
           }}
-          //value={searchValue}
+          checked={Boolean(value)}
           //onChange={handleSearch} "#00b894"
         />
       )}
@@ -84,11 +86,13 @@ const EditField: React.FC<EditFieldProps> = ({
             id={`${title}-input`}
             label={title}
             size="small"
-            //value={searchValue}
+            value={value}
             //onChange={searchValue}
           >
             {options.map((option) => (
-              <MenuItem value={option}>{option}</MenuItem>
+              <MenuItem key={`${title}-option-${option}`} value={option}>
+                {option}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>

@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Paper, ThemeProvider, createTheme } from "@mui/material";
+import isEmpty from "lodash/isEmpty";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { SelectedRow, selectSelectedRow } from "../../features/data/data";
-import { Column, selectFilteredColumns } from "../../features/columns/columns";
+import {
+  SelectedRow,
+  UpsertPayload,
+  selectSelectedRow,
+  selectUpsertPayload,
+  setUpsertPayload,
+} from "../../features/data/data";
+import {
+  Column,
+  selectColumns,
+  selectFilteredColumns,
+} from "../../features/columns/columns";
 import { COLUMNS_PADDING_X } from "../../features/columns/constants";
+import {
+  getInitialUpsertPayload,
+  shouldInitUpsertPayload,
+} from "../../features/data/utils";
+
 import EditField from "./EditField";
 
 const theme = createTheme({
@@ -21,10 +37,26 @@ const theme = createTheme({
 const EditRow: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const columns: Column[] = useAppSelector(selectFilteredColumns);
-  const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
+  const columns: Column[] = useAppSelector(selectColumns);
+  const stringifiedColumns: string = JSON.stringify(columns);
 
-  if (!selectedRow?.upsertModeActive) return null;
+  const filteredColumns: Column[] = useAppSelector(selectFilteredColumns);
+  const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
+  const upsertPayload: UpsertPayload = useAppSelector(selectUpsertPayload);
+  const isUpsertPayloadEmpty: boolean = isEmpty(upsertPayload);
+
+  const [newUpsertPayload, setNewUpsertPayload] = useState<UpsertPayload>({});
+
+  useEffect(() => {
+    if (shouldInitUpsertPayload(selectedRow?.rowId, isUpsertPayloadEmpty))
+      dispatch(setUpsertPayload(getInitialUpsertPayload(columns)));
+  }, [selectedRow?.rowId, stringifiedColumns, isUpsertPayloadEmpty]);
+
+  useEffect(() => {
+    setNewUpsertPayload(upsertPayload);
+  }, [upsertPayload]);
+
+  if (!selectedRow?.upsertModeActive || isEmpty(newUpsertPayload)) return null;
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,10 +78,12 @@ const EditRow: React.FC = () => {
           // opacity: 0.8,
         }}
       >
-        {columns.map(({ title, type, width, options }) => (
+        {filteredColumns.map(({ id, title, type, width, options }) => (
           <EditField
+            key={`edit-field-${id}`}
             title={title}
             type={type}
+            value={newUpsertPayload[id]}
             width={width}
             options={options}
           />

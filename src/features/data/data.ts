@@ -9,7 +9,13 @@ import cloneDeep from "lodash/cloneDeep";
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
-import { rowIncludes, paginateRows, groupRows } from "./utils";
+import {
+  rowIncludes,
+  paginateRows,
+  groupRows,
+  shouldLoadRowData,
+  shouldClearRowData,
+} from "./utils";
 
 export interface Row {
   id: string;
@@ -82,6 +88,24 @@ export const dataSlice = createSlice({
       state.page = action.payload;
     },
     setSelectedRow: (state, action: PayloadAction<Partial<SelectedRow>>) => {
+      const rowId: string = state.selectedRow.rowId;
+
+      if (shouldLoadRowData(rowId, action.payload.upsertModeActive)) {
+        const rowData: Row | undefined = state.rows.find(
+          ({ id }) => id === rowId
+        );
+
+        const newUpsertPayload: UpsertPayload = Boolean(rowData)
+          ? { ...rowData }
+          : {};
+        unset(newUpsertPayload, "id");
+
+        state.upsertPayload = { ...newUpsertPayload };
+      }
+
+      if (shouldClearRowData(rowId, action.payload.upsertModeActive))
+        state.upsertPayload = {};
+
       state.selectedRow = { ...state.selectedRow, ...action.payload };
     },
     unsetSelectedRow: (state) => {
@@ -155,6 +179,7 @@ export const getPage = (state: RootState) => state.data.page;
 export const getLimit = (state: RootState) => state.data.limit;
 const getSelectedRow = (state: RootState) => state.data.selectedRow;
 const getGroupedValues = (state: RootState) => state.data.groupedValues;
+const getUpsertPayload = (state: RootState) => state.data.upsertPayload;
 
 export const selectSelectedRow = createSelector(
   [getSelectedRow],
@@ -169,6 +194,16 @@ export const selectSelectedRow = createSelector(
 const selectGroupedValues = createSelector(
   [getGroupedValues],
   (groupedValues) => groupedValues,
+  {
+    memoizeOptions: {
+      equalityCheck: isEqual,
+    },
+  }
+);
+
+export const selectUpsertPayload = createSelector(
+  [getUpsertPayload],
+  (upsertPayload) => upsertPayload,
   {
     memoizeOptions: {
       equalityCheck: isEqual,
