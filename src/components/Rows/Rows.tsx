@@ -10,7 +10,7 @@ import {
 
 import Row from "./Row";
 import GroupRow from "./GroupRow";
-import EditRow from "./EditRow";
+import EditRow from "./EditRow/EditRow";
 
 const Rows: React.FC = () => {
   const rows = useAppSelector(selectPaginatedRows);

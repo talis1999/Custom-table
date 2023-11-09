@@ -2,24 +2,24 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Paper, ThemeProvider, createTheme } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   SelectedRow,
   UpsertPayload,
   selectSelectedRow,
   selectUpsertPayload,
   setUpsertPayload,
-} from "../../features/data/data";
+} from "../../../features/data/data";
 import {
   Column,
   selectColumns,
   selectFilteredColumns,
-} from "../../features/columns/columns";
-import { COLUMNS_PADDING_X } from "../../features/columns/constants";
+} from "../../../features/columns/columns";
+import { COLUMNS_PADDING_X } from "../../../features/columns/constants";
 import {
   getInitialUpsertPayload,
   shouldInitUpsertPayload,
-} from "../../features/data/utils";
+} from "../../../features/data/utils";
 
 import EditField from "./EditField";
 

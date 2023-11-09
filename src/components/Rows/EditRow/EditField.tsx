@@ -14,7 +14,7 @@ import { red, green } from "@mui/material/colors";
 import {
   COLUMN_DEFAULT_WIDTH,
   ColumnTypes,
-} from "../../features/columns/constants";
+} from "../../../features/columns/constants";
 
 interface EditFieldProps {
   columnId: string;
