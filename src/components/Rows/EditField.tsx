@@ -5,9 +5,9 @@ import {
   TextField,
   Checkbox,
   InputLabel,
-  Select,
   MenuItem,
 } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { red, green } from "@mui/material/colors";
 
@@ -17,20 +17,39 @@ import {
 } from "../../features/columns/constants";
 
 interface EditFieldProps {
+  columnId: string;
   title: string;
   type: string;
   value: string | number | boolean;
+  updateUpsertPayload: (
+    columnId: string,
+    newValue: string | number | boolean
+  ) => void;
   width?: number;
   options?: string[] | number[];
 }
 
 const EditField: React.FC<EditFieldProps> = ({
+  columnId,
   title,
   type,
   value,
+  updateUpsertPayload,
   width = COLUMN_DEFAULT_WIDTH,
   options = [],
 }) => {
+  const handleWrite = (event: React.ChangeEvent<HTMLInputElement>) => {
+    updateUpsertPayload(columnId, event.target.value);
+  };
+
+  const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    updateUpsertPayload(columnId, event.target.checked);
+  };
+
+  const handleSelect = (event: SelectChangeEvent<typeof value>) => {
+    updateUpsertPayload(columnId, event.target.value);
+  };
+
   return (
     <Box
       sx={{
@@ -49,7 +68,7 @@ const EditField: React.FC<EditFieldProps> = ({
           label={`${title}`}
           size="small"
           value={value}
-          //onChange={handleSearch}
+          onChange={handleWrite}
         />
       )}
       {type === ColumnTypes.Number && (
@@ -59,7 +78,7 @@ const EditField: React.FC<EditFieldProps> = ({
           size="small"
           type="number"
           value={value}
-          //onChange={handleSearch}
+          onChange={handleWrite}
         />
       )}
       {type === ColumnTypes.Boolian && (
@@ -73,7 +92,7 @@ const EditField: React.FC<EditFieldProps> = ({
             },
           }}
           checked={Boolean(value)}
-          //onChange={handleSearch} "#00b894"
+          onChange={handleCheck}
         />
       )}
       {type === ColumnTypes.Options && (
@@ -87,7 +106,7 @@ const EditField: React.FC<EditFieldProps> = ({
             label={title}
             size="small"
             value={value}
-            //onChange={searchValue}
+            onChange={handleSelect}
           >
             {options.map((option) => (
               <MenuItem key={`${title}-option-${option}`} value={option}>

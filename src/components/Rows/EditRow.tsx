@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Paper, ThemeProvider, createTheme } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
@@ -46,6 +46,7 @@ const EditRow: React.FC = () => {
   const isUpsertPayloadEmpty: boolean = isEmpty(upsertPayload);
 
   const [newUpsertPayload, setNewUpsertPayload] = useState<UpsertPayload>({});
+  const stringifiedNewUpsertPayload: string = JSON.stringify(newUpsertPayload);
 
   useEffect(() => {
     if (shouldInitUpsertPayload(selectedRow?.rowId, isUpsertPayloadEmpty))
@@ -55,6 +56,19 @@ const EditRow: React.FC = () => {
   useEffect(() => {
     setNewUpsertPayload(upsertPayload);
   }, [upsertPayload]);
+
+  useEffect(() => {
+    dispatch(setUpsertPayload(newUpsertPayload));
+  }, [stringifiedNewUpsertPayload]);
+
+  const updateUpsertPayload = useCallback(
+    (columnId: string, newValue: string | number | boolean) =>
+      setNewUpsertPayload((prevState) => ({
+        ...prevState,
+        [columnId]: newValue,
+      })),
+    [setNewUpsertPayload]
+  );
 
   if (!selectedRow?.upsertModeActive || isEmpty(newUpsertPayload)) return null;
 
@@ -75,15 +89,16 @@ const EditRow: React.FC = () => {
           position: "sticky",
           top: 0,
           zIndex: 1,
-          // opacity: 0.8,
         }}
       >
         {filteredColumns.map(({ id, title, type, width, options }) => (
           <EditField
             key={`edit-field-${id}`}
+            columnId={id}
             title={title}
             type={type}
             value={newUpsertPayload[id]}
+            updateUpsertPayload={updateUpsertPayload}
             width={width}
             options={options}
           />

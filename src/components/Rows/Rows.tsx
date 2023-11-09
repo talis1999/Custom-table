@@ -25,7 +25,7 @@ const Rows: React.FC = () => {
         position: "relative",
       }}
     >
-      {<EditRow />}
+      <EditRow />
       {Boolean(rows.length) &&
         rows.map((row) =>
           Boolean(row.id) ? (
