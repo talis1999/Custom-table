@@ -152,6 +152,7 @@ export const dataSlice = createSlice({
       } as UpsertPayload;
     },
     deleteSelectedRow: (state) => {
+      state.page = 1;
       state.rows = state.rows.filter(
         (row) => row.id !== state.selectedRow.rowId
       );
