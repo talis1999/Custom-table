@@ -11,6 +11,7 @@ import {
   addGroupValue,
   removeGroupValue,
   deleteSelectedRow,
+  saveSelectedRow,
 } from "../../../features/data/data";
 import { RowMenu } from "../../../features/data/constants";
 
@@ -43,7 +44,8 @@ const MenuButton: React.FC<MenuButtonProps> = ({
       dispatch(deleteSelectedRow());
     }
     if (buttonType === RowMenu.Save) {
-      // add/ update + clear
+      dispatch(saveSelectedRow());
+      dispatch(unsetSelectedRow());
     }
     if (buttonType === RowMenu.Cancel) {
       dispatch(unsetSelectedRow());

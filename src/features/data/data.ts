@@ -6,6 +6,8 @@ import get from "lodash/get";
 import set from "lodash/set";
 import unset from "lodash/unset";
 import cloneDeep from "lodash/cloneDeep";
+import { v4 as uuidv4 } from "uuid";
+
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
@@ -158,6 +160,17 @@ export const dataSlice = createSlice({
       );
       state.selectedRow.rowId = "";
     },
+    saveSelectedRow: (state) => {
+      const rowId: string = state.selectedRow.rowId;
+
+      if (Boolean(rowId)) {
+        state.rows = state.rows.map((row) =>
+          row.id === rowId ? { ...row, ...state.upsertPayload } : row
+        );
+      } else {
+        state.rows = [...state.rows, { id: uuidv4(), ...state.upsertPayload }];
+      }
+    },
   },
 });
 
@@ -172,6 +185,7 @@ export const {
   removeGroupValue,
   deleteSelectedRow,
   setUpsertPayload,
+  saveSelectedRow,
 } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
