@@ -50,6 +50,11 @@ const EditField: React.FC<EditFieldProps> = ({
     updateUpsertPayload(columnId, event.target.value);
   };
 
+  const stringToNumber = () => {
+    if (type === ColumnTypes.Number && value !== "")
+      updateUpsertPayload(columnId, parseFloat(value as string));
+  };
+
   return (
     <Box
       sx={{
@@ -79,6 +84,7 @@ const EditField: React.FC<EditFieldProps> = ({
           type="number"
           value={value}
           onChange={handleWrite}
+          onBlur={stringToNumber}
         />
       )}
       {type === ColumnTypes.Boolian && (
