@@ -3,14 +3,18 @@ import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/SearchRounded";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getInitialState } from "../../app/store";
 import { getSearchQuery, setSearchQuery } from "../../features/data/data";
 import useDebounce from "../../hooks/useDebounce";
+import { StoreKeys } from "../../utils/localStorage";
 
 const SearchField: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const currentSearchQuery: string = useAppSelector(getSearchQuery);
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>(
+    getInitialState(StoreKeys.SearchValue)
+  );
   const debouncedSearchValue: string = useDebounce<string>(searchValue);
 
   useEffect(() => {

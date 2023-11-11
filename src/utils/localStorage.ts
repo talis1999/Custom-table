@@ -5,6 +5,7 @@ import { INITIAL_SORT_BY_COLUMN } from "../features/columns/constants";
 
 export enum StoreKeys {
   SortByColumn = "columns.sortByColumn",
+  SelectedColumns = "columns.selectedColumns",
   PageIndex = "data.page",
   PageSize = "data.limit",
   UpsertPayload = "data.upsertPayload",
@@ -14,11 +15,12 @@ export enum StoreKeys {
 export type GetInitialState = (storeKey: StoreKeys) => any;
 
 const DEFAULT_STORE_VALUES: Record<string, any> = {
-  "columns.sortByColumn": INITIAL_SORT_BY_COLUMN,
-  "data.page": 1,
-  "data.limit": 25,
-  "data.upsertPayload": {},
-  "data.searchQuery": "",
+  [StoreKeys.SortByColumn]: INITIAL_SORT_BY_COLUMN,
+  [StoreKeys.SelectedColumns]: [],
+  [StoreKeys.PageIndex]: 1,
+  [StoreKeys.PageSize]: 25,
+  [StoreKeys.UpsertPayload]: {},
+  [StoreKeys.SearchValue]: "",
 };
 
 export const loadState = (): Record<string, any> | undefined => {

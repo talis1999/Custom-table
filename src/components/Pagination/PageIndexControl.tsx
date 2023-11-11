@@ -4,9 +4,11 @@ import PrevIcon from "@mui/icons-material/ChevronLeftTwoTone";
 import NextIcon from "@mui/icons-material/ChevronRightTwoTone";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getInitialState } from "../../app/store";
 import { getPage, selectPagesLength, setPage } from "../../features/data/data";
 import useDebounce from "../../hooks/useDebounce";
 import PageSelect from "./PageSelect";
+import { StoreKeys } from "../../utils/localStorage";
 
 const PageIndexControl: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +16,9 @@ const PageIndexControl: React.FC = () => {
   const currentPage: number = useAppSelector(getPage);
   const currentPagesLength: number = useAppSelector(selectPagesLength);
 
-  const [pageIndexValue, setPageIndexValue] = useState<number>(1);
+  const [pageIndexValue, setPageIndexValue] = useState<number>(
+    getInitialState(StoreKeys.PageIndex)
+  );
   const debouncedPageIndexValue: number = useDebounce<number>(pageIndexValue);
 
   useEffect(() => {

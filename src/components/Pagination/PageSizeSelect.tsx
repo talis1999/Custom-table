@@ -3,9 +3,11 @@ import { MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getInitialState } from "../../app/store";
 import { getLimit, setLimit } from "../../features/data/data";
 
 import { PAGE_SIZES } from "../../features/data/constants";
+import { StoreKeys } from "../../utils/localStorage";
 
 const ITEM_HEIGHT = 36;
 const ITEM_PADDING_TOP = 8;
@@ -22,7 +24,9 @@ const PageSizeSelect: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const currentLimit: number = useAppSelector(getLimit);
-  const [pageSize, setPageSize] = useState<number>(25);
+  const [pageSize, setPageSize] = useState<number>(
+    getInitialState(StoreKeys.PageSize)
+  );
 
   useEffect(() => {
     setPageSize(currentLimit);
