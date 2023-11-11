@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
+import { TextField, InputAdornment } from "@mui/material";
+import SearchIcon from "@mui/icons-material/SearchRounded";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getSearchQuery, setSearchQuery } from "../../features/data/data";
@@ -31,6 +32,13 @@ const SearchField: React.FC = () => {
       size="small"
       value={searchValue}
       onChange={handleSearch}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start" variant="outlined">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
     />
   );
 };
