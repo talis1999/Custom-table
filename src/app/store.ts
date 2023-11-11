@@ -3,9 +3,17 @@ import throttle from "lodash/throttle";
 
 import columnsReduser from "../features/columns/columns";
 import dataReduser from "../features/data/data";
-import { loadState, saveState } from "../utils/localStorage";
+import {
+  GetInitialState,
+  loadState,
+  saveState,
+  newInitialStateGetter,
+} from "../utils/localStorage";
 
-export const preloadedState: Record<string, any> | undefined = loadState();
+const preloadedState: Record<string, any> | undefined = loadState();
+
+export const getInitialState: GetInitialState =
+  newInitialStateGetter(preloadedState);
 
 export const store = configureStore({
   reducer: {
