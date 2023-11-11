@@ -1,6 +1,7 @@
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import {
+  FormErrors,
   GroupRow,
   GroupedValues,
   Row,
@@ -126,4 +127,18 @@ export const getInitialUpsertPayload = (columns: Column[]): UpsertPayload => {
   });
 
   return upsertPayload;
+};
+
+// !- This case includes only basic validation checks
+export const generateFormErrors = (
+  upsertPayload: UpsertPayload
+): FormErrors => {
+  const formErrors: FormErrors = {};
+  Object.keys(upsertPayload).forEach((key) => {
+    if (upsertPayload[key] === "") {
+      formErrors[key] = "* Field required";
+      return;
+    }
+  });
+  return formErrors;
 };

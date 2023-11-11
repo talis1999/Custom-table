@@ -27,6 +27,7 @@ interface EditFieldProps {
   ) => void;
   width?: number;
   options?: string[] | number[];
+  error?: string;
 }
 
 const EditField: React.FC<EditFieldProps> = ({
@@ -37,6 +38,7 @@ const EditField: React.FC<EditFieldProps> = ({
   updateUpsertPayload,
   width = COLUMN_DEFAULT_WIDTH,
   options = [],
+  error = "",
 }) => {
   const handleWrite = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateUpsertPayload(columnId, event.target.value);
@@ -74,6 +76,8 @@ const EditField: React.FC<EditFieldProps> = ({
           size="small"
           value={value}
           onChange={handleWrite}
+          error={Boolean(error)}
+          helperText={Boolean(error) && error}
         />
       )}
       {type === ColumnTypes.Number && (
@@ -85,6 +89,8 @@ const EditField: React.FC<EditFieldProps> = ({
           value={value}
           onChange={handleWrite}
           onBlur={stringToNumber}
+          error={Boolean(error)}
+          helperText={Boolean(error) && error}
         />
       )}
       {type === ColumnTypes.Boolian && (
@@ -96,6 +102,7 @@ const EditField: React.FC<EditFieldProps> = ({
             "&.Mui-checked": {
               color: green[400],
             },
+            top: "6px",
           }}
           checked={Boolean(value)}
           onChange={handleCheck}

@@ -4,8 +4,10 @@ import isEmpty from "lodash/isEmpty";
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
+  FormErrors,
   SelectedRow,
   UpsertPayload,
+  selectFormErrors,
   selectSelectedRow,
   selectUpsertPayload,
   setUpsertPayload,
@@ -43,6 +45,8 @@ const EditRow: React.FC = () => {
   const filteredColumns: Column[] = useAppSelector(selectFilteredColumns);
   const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
   const upsertPayload: UpsertPayload = useAppSelector(selectUpsertPayload);
+  const formErrors: FormErrors = useAppSelector(selectFormErrors);
+
   const isUpsertPayloadEmpty: boolean = isEmpty(upsertPayload);
 
   const [newUpsertPayload, setNewUpsertPayload] = useState<UpsertPayload>({});
@@ -83,7 +87,8 @@ const EditRow: React.FC = () => {
           px: COLUMNS_PADDING_X,
           pt: 0.5,
           pb: 0.75,
-          alignItems: "center",
+          //alignItems: "center",
+          alignItems: "baseline",
           borderWidth: "0px 1px",
           borderColor: "lightGray",
           position: "sticky",
@@ -101,6 +106,7 @@ const EditRow: React.FC = () => {
             updateUpsertPayload={updateUpsertPayload}
             width={width}
             options={options}
+            error={formErrors[id]}
           />
         ))}
       </Paper>

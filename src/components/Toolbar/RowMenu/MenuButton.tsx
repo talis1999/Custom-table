@@ -45,7 +45,6 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     }
     if (buttonType === RowMenu.Save) {
       dispatch(saveSelectedRow());
-      dispatch(unsetSelectedRow());
     }
     if (buttonType === RowMenu.Cancel) {
       dispatch(unsetSelectedRow());

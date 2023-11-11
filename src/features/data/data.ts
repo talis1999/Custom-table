@@ -17,6 +17,7 @@ import {
   groupRows,
   shouldLoadRowData,
   shouldClearRowData,
+  generateFormErrors,
 } from "./utils";
 
 export interface Row {
@@ -47,6 +48,10 @@ export interface UpsertPayload {
   [columnId: string]: string | number | boolean;
 }
 
+export interface FormErrors {
+  [columnId: string]: string;
+}
+
 interface DataState {
   rows: Row[];
   searchQuery: string;
@@ -55,6 +60,7 @@ interface DataState {
   selectedRow: SelectedRow;
   groupedValues: GroupedValues;
   upsertPayload: UpsertPayload;
+  formErrors: FormErrors;
 }
 
 const initialState: DataState = {
@@ -69,6 +75,7 @@ const initialState: DataState = {
   },
   groupedValues: {},
   upsertPayload: {},
+  formErrors: {},
 };
 
 export const dataSlice = createSlice({
@@ -103,10 +110,13 @@ export const dataSlice = createSlice({
         unset(newUpsertPayload, "id");
 
         state.upsertPayload = { ...newUpsertPayload };
+        state.formErrors = {};
       }
 
-      if (shouldClearRowData(rowId, action.payload.upsertModeActive))
+      if (shouldClearRowData(rowId, action.payload.upsertModeActive)) {
         state.upsertPayload = {};
+        state.formErrors = {};
+      }
 
       state.selectedRow = { ...state.selectedRow, ...action.payload };
     },
@@ -162,6 +172,9 @@ export const dataSlice = createSlice({
     },
     saveSelectedRow: (state) => {
       const rowId: string = state.selectedRow.rowId;
+      state.formErrors = generateFormErrors(state.upsertPayload);
+
+      if (!isEmpty(state.formErrors)) return;
 
       if (Boolean(rowId)) {
         state.rows = state.rows.map((row) =>
@@ -170,6 +183,12 @@ export const dataSlice = createSlice({
       } else {
         state.rows = [...state.rows, { id: uuidv4(), ...state.upsertPayload }];
       }
+
+      state.selectedRow = {
+        rowId: "",
+        groupValue: "",
+        upsertModeActive: false,
+      };
     },
   },
 });
@@ -195,6 +214,7 @@ export const getLimit = (state: RootState) => state.data.limit;
 const getSelectedRow = (state: RootState) => state.data.selectedRow;
 const getGroupedValues = (state: RootState) => state.data.groupedValues;
 const getUpsertPayload = (state: RootState) => state.data.upsertPayload;
+const getFormErrors = (state: RootState) => state.data.formErrors;
 
 export const selectSelectedRow = createSelector(
   [getSelectedRow],
@@ -219,6 +239,16 @@ const selectGroupedValues = createSelector(
 export const selectUpsertPayload = createSelector(
   [getUpsertPayload],
   (upsertPayload) => upsertPayload,
+  {
+    memoizeOptions: {
+      equalityCheck: isEqual,
+    },
+  }
+);
+
+export const selectFormErrors = createSelector(
+  [getFormErrors],
+  (formErrors) => formErrors,
   {
     memoizeOptions: {
       equalityCheck: isEqual,
