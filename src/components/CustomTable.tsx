@@ -2,12 +2,15 @@ import React, { useEffect } from "react";
 import { Box, ThemeProvider, createTheme } from "@mui/material";
 
 import { useAppDispatch } from "../app/hooks";
-import { setRows } from "../features/data/data";
-import { setColumns } from "../features/columns/columns";
+import { getInitialState } from "../app/store";
+import { Row, setRows } from "../features/data/data";
+import { Column, setColumns } from "../features/columns/columns";
 
 import TableToolbar from "./Toolbar/TableToolbar";
 import TableContent from "./TableContent";
 import TablePagination from "./Pagination/TablePagination";
+
+import { StoreKeys } from "../utils/localStorage";
 
 import COLUMNS from "../constants/mockData/columns";
 import ROWS from "../constants/mockData/data";
@@ -27,6 +30,11 @@ const CustomTable: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const localColumns: Column[] = getInitialState(StoreKeys.Columns);
+    const localRows: Row[] = getInitialState(StoreKeys.Rows);
+
+    if (Boolean(localColumns.length) && Boolean(localRows.length)) return;
+
     dispatch(setColumns(COLUMNS));
     dispatch(setRows(ROWS));
   }, []);

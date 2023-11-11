@@ -4,8 +4,10 @@ import type { RootState } from "../app/store";
 import { INITIAL_SORT_BY_COLUMN } from "../features/columns/constants";
 
 export enum StoreKeys {
+  Columns = "columns.columns",
   SortByColumn = "columns.sortByColumn",
   SelectedColumns = "columns.selectedColumns",
+  Rows = "data.rows",
   PageIndex = "data.page",
   PageSize = "data.limit",
   UpsertPayload = "data.upsertPayload",
@@ -15,8 +17,10 @@ export enum StoreKeys {
 export type GetInitialState = (storeKey: StoreKeys) => any;
 
 const DEFAULT_STORE_VALUES: Record<string, any> = {
+  [StoreKeys.Columns]: [],
   [StoreKeys.SortByColumn]: INITIAL_SORT_BY_COLUMN,
   [StoreKeys.SelectedColumns]: [],
+  [StoreKeys.Rows]: [],
   [StoreKeys.PageIndex]: 1,
   [StoreKeys.PageSize]: 25,
   [StoreKeys.UpsertPayload]: {},
