@@ -18,7 +18,7 @@ import {
   selectSortByColumn,
   setSelectedColumns,
 } from "../../features/columns/columns";
-import { setSelectedRow } from "../../features/data/data";
+import { setPage, setSelectedRow } from "../../features/data/data";
 import { shouldResetSortByColumn } from "../../features/columns/utils";
 import useDebounce from "../../hooks/useDebounce";
 import { getSelectedColumnsCounter } from "../../features/columns/utils";
@@ -62,8 +62,10 @@ const ColumnsSelect: React.FC = () => {
 
   useEffect(() => {
     if (Boolean(debouncedColumnIds.length)) {
-      if (shouldResetSortByColumn(debouncedColumnIds, currentSortByColumn))
+      if (shouldResetSortByColumn(debouncedColumnIds, currentSortByColumn)) {
+        dispatch(setPage(1));
         dispatch(setSelectedRow({ groupValue: "" }));
+      }
       dispatch(setSelectedColumns(debouncedColumnIds));
     }
   }, [debouncedStringifiedColumnIds]);

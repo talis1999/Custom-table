@@ -6,9 +6,12 @@ import MenuIcon from "./MenuIcon";
 
 import { useAppDispatch } from "../../../app/hooks";
 import {
+  setSelectedRow,
   unsetSelectedRow,
   addGroupValue,
   removeGroupValue,
+  deleteSelectedRow,
+  saveSelectedRow,
 } from "../../../features/data/data";
 import { RowMenu } from "../../../features/data/constants";
 
@@ -32,12 +35,16 @@ const MenuButton: React.FC<MenuButtonProps> = ({
       dispatch(removeGroupValue(columnId));
     }
     if (buttonType === RowMenu.Add) {
+      dispatch(setSelectedRow({ upsertModeActive: true }));
     }
     if (buttonType === RowMenu.Edit) {
+      dispatch(setSelectedRow({ upsertModeActive: true }));
     }
     if (buttonType === RowMenu.Delete) {
+      dispatch(deleteSelectedRow());
     }
     if (buttonType === RowMenu.Save) {
+      dispatch(saveSelectedRow());
     }
     if (buttonType === RowMenu.Cancel) {
       dispatch(unsetSelectedRow());

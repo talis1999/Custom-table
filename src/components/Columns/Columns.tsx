@@ -9,7 +9,7 @@ import {
   selectSortByColumn,
   setSortByColumn as setCurrentSortByColumn,
 } from "../../features/columns/columns";
-import { setSelectedRow } from "../../features/data/data";
+import { setPage, setSelectedRow } from "../../features/data/data";
 import {
   COLUMNS_PADDING_X,
   Order,
@@ -57,6 +57,7 @@ const Columns: React.FC = () => {
   }, [currentSortByColumn]);
 
   useEffect(() => {
+    dispatch(setPage(1));
     dispatch(setSelectedRow({ groupValue: "" }));
     dispatch(setCurrentSortByColumn(debouncedSortByColumn));
   }, [debouncedStringifiedSortByColumn]);

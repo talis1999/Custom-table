@@ -1,7 +1,17 @@
 import get from "lodash/get";
-import { GroupRow, GroupedValues, Row, SelectedRow, UnionRow } from "./data";
-import { SortByColumn } from "../columns/columns";
+import isEmpty from "lodash/isEmpty";
+import {
+  FormErrors,
+  GroupRow,
+  GroupedValues,
+  Row,
+  SelectedRow,
+  UnionRow,
+  UpsertPayload,
+} from "./data";
+import { Column, SortByColumn } from "../columns/columns";
 import { RowMenu } from "./constants";
+import { ColumnTypes } from "../columns/constants";
 
 interface PaginateRowsArgs {
   rows: UnionRow[];
@@ -41,7 +51,7 @@ export const isRowMenuButtonEnabled = (
       RowMenu.Delete,
       RowMenu.Cancel,
     ].includes(buttonType);
-  if (Boolean(rowId) && upsertModeActive)
+  if (upsertModeActive)
     return [RowMenu.Save, RowMenu.Cancel].includes(buttonType);
   if (Boolean(groupValue))
     return [RowMenu.Ungroup, RowMenu.Cancel].includes(buttonType);
@@ -89,4 +99,46 @@ export const groupRows = (
     .filter((row) => row.rowsCount > 0);
   // step 4 - return both (will be sorted later)
   return [...filteredRows, ...groupedRows];
+};
+
+export const shouldLoadRowData = (
+  selectedRowId: string,
+  upsertModeActive: boolean = false
+): boolean => Boolean(selectedRowId) && upsertModeActive;
+
+export const shouldClearRowData = (
+  selectedRowId: string,
+  upsertModeActive: boolean = false
+): boolean => !Boolean(selectedRowId) && upsertModeActive;
+
+export const shouldInitUpsertPayload = (
+  selectedRowId: string = "",
+  isUpsertPayloadEmpty: boolean
+): boolean => !Boolean(selectedRowId) && isUpsertPayloadEmpty;
+
+export const getInitialUpsertPayload = (columns: Column[]): UpsertPayload => {
+  const upsertPayload: UpsertPayload = {};
+  columns.forEach(({ id, type, options }) => {
+    if (type === ColumnTypes.String) upsertPayload[id] = "";
+    if (type === ColumnTypes.Number) upsertPayload[id] = 0;
+    if (type === ColumnTypes.Boolian) upsertPayload[id] = false;
+    if (type === ColumnTypes.Options)
+      upsertPayload[id] = get(options, "[0]", "");
+  });
+
+  return upsertPayload;
+};
+
+// !- This case includes only basic validation checks
+export const generateFormErrors = (
+  upsertPayload: UpsertPayload
+): FormErrors => {
+  const formErrors: FormErrors = {};
+  Object.keys(upsertPayload).forEach((key) => {
+    if (upsertPayload[key] === "") {
+      formErrors[key] = "* Field required";
+      return;
+    }
+  });
+  return formErrors;
 };

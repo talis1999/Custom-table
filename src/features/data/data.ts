@@ -6,10 +6,19 @@ import get from "lodash/get";
 import set from "lodash/set";
 import unset from "lodash/unset";
 import cloneDeep from "lodash/cloneDeep";
+import { v4 as uuidv4 } from "uuid";
+
 import type { RootState } from "../../app/store";
 
 import { selectSortByColumn } from "../columns/columns";
-import { rowIncludes, paginateRows, groupRows } from "./utils";
+import {
+  rowIncludes,
+  paginateRows,
+  groupRows,
+  shouldLoadRowData,
+  shouldClearRowData,
+  generateFormErrors,
+} from "./utils";
 
 export interface Row {
   id: string;
@@ -25,14 +34,22 @@ export interface GroupRow {
 
 export type UnionRow = Row | GroupRow;
 
-export interface GroupedValues {
-  [columnId: string]: { [value: string]: number };
-}
-
 export interface SelectedRow {
   rowId: string;
   groupValue: string;
   upsertModeActive: boolean;
+}
+
+export interface GroupedValues {
+  [columnId: string]: { [value: string]: number };
+}
+
+export interface UpsertPayload {
+  [columnId: string]: string | number | boolean;
+}
+
+export interface FormErrors {
+  [columnId: string]: string;
 }
 
 interface DataState {
@@ -42,6 +59,8 @@ interface DataState {
   limit: number;
   selectedRow: SelectedRow;
   groupedValues: GroupedValues;
+  upsertPayload: UpsertPayload;
+  formErrors: FormErrors;
 }
 
 const initialState: DataState = {
@@ -55,6 +74,8 @@ const initialState: DataState = {
     upsertModeActive: false,
   },
   groupedValues: {},
+  upsertPayload: {},
+  formErrors: {},
 };
 
 export const dataSlice = createSlice({
@@ -76,6 +97,27 @@ export const dataSlice = createSlice({
       state.page = action.payload;
     },
     setSelectedRow: (state, action: PayloadAction<Partial<SelectedRow>>) => {
+      const rowId: string = state.selectedRow.rowId;
+
+      if (shouldLoadRowData(rowId, action.payload.upsertModeActive)) {
+        const rowData: Row | undefined = state.rows.find(
+          ({ id }) => id === rowId
+        );
+
+        const newUpsertPayload: UpsertPayload = Boolean(rowData)
+          ? { ...rowData }
+          : {};
+        unset(newUpsertPayload, "id");
+
+        state.upsertPayload = { ...newUpsertPayload };
+        state.formErrors = {};
+      }
+
+      if (shouldClearRowData(rowId, action.payload.upsertModeActive)) {
+        state.upsertPayload = {};
+        state.formErrors = {};
+      }
+
       state.selectedRow = { ...state.selectedRow, ...action.payload };
     },
     unsetSelectedRow: (state) => {
@@ -97,6 +139,7 @@ export const dataSlice = createSlice({
       );
 
       if (groupedValue !== undefined) {
+        state.page = 1;
         set(state.groupedValues, [columnId, String(groupedValue)], 0);
         state.selectedRow.rowId = "";
       }
@@ -107,8 +150,45 @@ export const dataSlice = createSlice({
       const newGroupedValues: GroupedValues = cloneDeep(state.groupedValues);
       unset(newGroupedValues, [columnId, state.selectedRow.groupValue]);
 
+      state.page = 1;
       state.groupedValues = newGroupedValues;
       state.selectedRow.groupValue = "";
+    },
+    setUpsertPayload: (
+      state,
+      action: PayloadAction<Partial<UpsertPayload>>
+    ) => {
+      state.upsertPayload = {
+        ...state.upsertPayload,
+        ...action.payload,
+      } as UpsertPayload;
+    },
+    deleteSelectedRow: (state) => {
+      state.page = 1;
+      state.rows = state.rows.filter(
+        (row) => row.id !== state.selectedRow.rowId
+      );
+      state.selectedRow.rowId = "";
+    },
+    saveSelectedRow: (state) => {
+      const rowId: string = state.selectedRow.rowId;
+      state.formErrors = generateFormErrors(state.upsertPayload);
+
+      if (!isEmpty(state.formErrors)) return;
+
+      if (Boolean(rowId)) {
+        state.rows = state.rows.map((row) =>
+          row.id === rowId ? { ...row, ...state.upsertPayload } : row
+        );
+      } else {
+        state.rows = [...state.rows, { id: uuidv4(), ...state.upsertPayload }];
+      }
+
+      state.selectedRow = {
+        rowId: "",
+        groupValue: "",
+        upsertModeActive: false,
+      };
     },
   },
 });
@@ -122,6 +202,9 @@ export const {
   unsetSelectedRow,
   addGroupValue,
   removeGroupValue,
+  deleteSelectedRow,
+  setUpsertPayload,
+  saveSelectedRow,
 } = dataSlice.actions;
 
 const getRows = (state: RootState) => state.data.rows;
@@ -130,6 +213,8 @@ export const getPage = (state: RootState) => state.data.page;
 export const getLimit = (state: RootState) => state.data.limit;
 const getSelectedRow = (state: RootState) => state.data.selectedRow;
 const getGroupedValues = (state: RootState) => state.data.groupedValues;
+const getUpsertPayload = (state: RootState) => state.data.upsertPayload;
+const getFormErrors = (state: RootState) => state.data.formErrors;
 
 export const selectSelectedRow = createSelector(
   [getSelectedRow],
@@ -144,6 +229,26 @@ export const selectSelectedRow = createSelector(
 const selectGroupedValues = createSelector(
   [getGroupedValues],
   (groupedValues) => groupedValues,
+  {
+    memoizeOptions: {
+      equalityCheck: isEqual,
+    },
+  }
+);
+
+export const selectUpsertPayload = createSelector(
+  [getUpsertPayload],
+  (upsertPayload) => upsertPayload,
+  {
+    memoizeOptions: {
+      equalityCheck: isEqual,
+    },
+  }
+);
+
+export const selectFormErrors = createSelector(
+  [getFormErrors],
+  (formErrors) => formErrors,
   {
     memoizeOptions: {
       equalityCheck: isEqual,
