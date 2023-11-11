@@ -10,6 +10,7 @@ import Checkbox from "@mui/material/Checkbox";
 import sortBy from "lodash/sortBy";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getInitialState } from "../../app/store";
 import {
   Column,
   SortByColumn,
@@ -22,6 +23,7 @@ import { setPage, setSelectedRow } from "../../features/data/data";
 import { shouldResetSortByColumn } from "../../features/columns/utils";
 import useDebounce from "../../hooks/useDebounce";
 import { getSelectedColumnsCounter } from "../../features/columns/utils";
+import { StoreKeys } from "../../utils/localStorage";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,7 +45,9 @@ const ColumnsSelect: React.FC = () => {
   );
   const currentSortByColumn: SortByColumn = useAppSelector(selectSortByColumn);
 
-  const [columnIds, setColumnIds] = useState<string[]>([]);
+  const [columnIds, setColumnIds] = useState<string[]>(
+    getInitialState(StoreKeys.SelectedColumns)
+  );
   const stringifiedColumnIds: string = columnIds.join(", ");
   const selectedColumnsCounter: string = getSelectedColumnsCounter(
     columnIds.length

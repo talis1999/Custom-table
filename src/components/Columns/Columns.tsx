@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getInitialState } from "../../app/store";
 import {
   Column as ColumnType,
   SortByColumn,
@@ -22,6 +23,7 @@ import {
   stringToSortByColumn,
   getReverseOrder,
 } from "../../features/columns/utils";
+import { StoreKeys } from "../../utils/localStorage";
 
 const Columns: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +32,7 @@ const Columns: React.FC = () => {
   const currentSortByColumn: SortByColumn = useAppSelector(selectSortByColumn);
 
   const [sortByColumn, setSortByColumn] = useState<SortByColumn>(
-    INITIAL_SORT_BY_COLUMN
+    getInitialState(StoreKeys.SortByColumn)
   );
   const stringifiedSortByColumn: string = `${sortByColumn.columnId}, ${sortByColumn.columnTitle}, ${sortByColumn.order}`;
 

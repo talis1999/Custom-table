@@ -3,6 +3,7 @@ import { Paper, ThemeProvider, createTheme } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { getInitialState } from "../../../app/store";
 import {
   FormErrors,
   SelectedRow,
@@ -24,6 +25,7 @@ import {
 } from "../../../features/data/utils";
 
 import EditField from "./EditField";
+import { StoreKeys } from "../../../utils/localStorage";
 
 const theme = createTheme({
   palette: {
@@ -49,7 +51,9 @@ const EditRow: React.FC = () => {
 
   const isUpsertPayloadEmpty: boolean = isEmpty(upsertPayload);
 
-  const [newUpsertPayload, setNewUpsertPayload] = useState<UpsertPayload>({});
+  const [newUpsertPayload, setNewUpsertPayload] = useState<UpsertPayload>(
+    getInitialState(StoreKeys.UpsertPayload)
+  );
   const stringifiedNewUpsertPayload: string = JSON.stringify(newUpsertPayload);
 
   useEffect(() => {
