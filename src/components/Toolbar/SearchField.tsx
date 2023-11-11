@@ -38,7 +38,7 @@ const SearchField: React.FC = () => {
       onChange={handleSearch}
       InputProps={{
         startAdornment: (
-          <InputAdornment position="start" variant="outlined">
+          <InputAdornment position="start">
             <SearchIcon />
           </InputAdornment>
         ),
