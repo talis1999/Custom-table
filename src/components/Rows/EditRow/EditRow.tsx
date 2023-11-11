@@ -87,7 +87,6 @@ const EditRow: React.FC = () => {
           px: COLUMNS_PADDING_X,
           pt: 0.5,
           pb: 0.75,
-          //alignItems: "center",
           alignItems: "baseline",
           borderWidth: "0px 1px",
           borderColor: "lightGray",
