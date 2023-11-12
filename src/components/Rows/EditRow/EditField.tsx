@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Box,
   FormControl,
@@ -133,4 +133,4 @@ const EditField: React.FC<EditFieldProps> = ({
   );
 };
 
-export default EditField;
+export default memo(EditField);

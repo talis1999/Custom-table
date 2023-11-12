@@ -22,7 +22,6 @@ const Row: React.FC<RowProps> = ({ row }) => {
   const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    console.log("ROW_ID- ", row.id);
     dispatch(
       setSelectedRow({ rowId: row.id, groupValue: "", upsertModeActive: false })
     );

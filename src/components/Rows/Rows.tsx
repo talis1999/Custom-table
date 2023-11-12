@@ -14,7 +14,6 @@ import EditRow from "./EditRow/EditRow";
 
 const Rows: React.FC = () => {
   const rows = useAppSelector(selectPaginatedRows);
-  console.log("!-- ROWS RENDER --!");
 
   return (
     <Box

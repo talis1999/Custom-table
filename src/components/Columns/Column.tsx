@@ -26,8 +26,6 @@ const Column: React.FC<ColumnProps> = ({
     changeSortByColumn(columnId, title);
   };
 
-  console.log("!-- COLUMN RENDER --!");
-
   return (
     <Box
       sx={{
