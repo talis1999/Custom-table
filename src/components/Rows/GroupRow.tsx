@@ -19,7 +19,6 @@ const GroupRow: React.FC<GroupRowProps> = ({ row }) => {
   const selectedRow: SelectedRow = useAppSelector(selectSelectedRow);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    console.log("ROW_VALUE--", row.value);
     dispatch(
       setSelectedRow({
         rowId: "",

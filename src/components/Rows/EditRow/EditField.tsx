@@ -57,8 +57,6 @@ const EditField: React.FC<EditFieldProps> = ({
       updateUpsertPayload(columnId, parseFloat(value as string));
   };
 
-  console.log(`EDIT FIELD RENDER ${title}`);
-
   return (
     <Box
       sx={{
