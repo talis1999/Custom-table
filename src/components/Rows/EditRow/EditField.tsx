@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Box,
   FormControl,
@@ -56,6 +56,8 @@ const EditField: React.FC<EditFieldProps> = ({
     if (type === ColumnTypes.Number && value !== "")
       updateUpsertPayload(columnId, parseFloat(value as string));
   };
+
+  console.log(`EDIT FIELD RENDER ${title}`);
 
   return (
     <Box
@@ -133,4 +135,4 @@ const EditField: React.FC<EditFieldProps> = ({
   );
 };
 
-export default EditField;
+export default memo(EditField);
